@@ -1,26 +1,15 @@
 @import '~@angular/material/theming';
 
-@include mat-core();
-
-$custom-primary: mat-palette($mat-deep-orange, 400);
-$custom-accent: mat-palette($mat-deep-purple);
-
-$custom-theme: mat-dark-theme($custom-primary, $custom-accent);
-@include angular-material-theme($custom-theme);
-$primary: #ff7043;
-$accent: #673ab7;
-
-
-
-
+$main-primary: mat-palette($mat-deep-orange, 400);
+$main-accent: mat-palette($mat-deep-purple, 300);
+$main-theme: mat-dark-theme(
+    $main-primary,
+    $main-accent
+);
 
 $alternative-primary: mat-palette($mat-blue);
 $alternative-accent: mat-palette($mat-lime);
-
-$alternative-theme: mat-light-theme($alternative-primary, $alternative-accent);
-
-.alternative {
-    @include mat-button-toggle-theme($alternative-theme);
-    @include mat-button-theme($alternative-theme);
-    @include angular-material-theme($alternative-theme);
-}
+$alternative-theme: mat-dark-theme(
+    $alternative-primary, 
+    $alternative-accent
+);

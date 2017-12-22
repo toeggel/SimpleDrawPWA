@@ -1,11 +1,5 @@
 @import '../../theme.scss';
 
-:host {
-  .mat-icon {
-    color: $primary;
-  }
-}
-
 .fab {
   position: absolute;
   right: 20px;
@@ -13,11 +7,8 @@
 }
 
 button {
-  &.erase {
-  .mat-icon {
-      transform: rotate(180deg);
-      color: $accent;
-    }
+  &.erase .mat-icon {
+    transform: rotate(180deg);
   }
 }
 
