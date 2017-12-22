@@ -1,0 +1,22 @@
+:host{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.canvas-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  padding: 15px;
+}
+
+.canvas {
+  flex: 1;
+  
+  touch-action: none;
+  
+  background-color: #ffffff;
+  color: #000000;
+}

@@ -1,0 +1,12 @@
+.fab {
+  position: absolute;
+  right: 20px;
+  bottom: 70px;
+}
+
+.mat-button-toggle-checked {
+  .mat-icon
+  {
+    transform: rotate(180deg);
+  }
+}

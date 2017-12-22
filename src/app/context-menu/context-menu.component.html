@@ -1,0 +1,18 @@
+<!-- <button fxHide fxShow.lt-sm class="fab" mat-mini-fab>
+  <mat-icon>color_lense</mat-icon>
+</button> -->
+<!-- <button fxShow fxHide.lt-sm class="fab" mat-fab>
+  <mat-icon>color_lense</mat-icon>
+</button> -->
+<mat-toolbar class="mat-elevation-z6" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+  <button mat-icon-button>
+    <mat-icon>color_lense</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>colorize</mat-icon>
+  </button>
+  <mat-slider [(ngModel)]="value" [min]="2" [max]="50" [step]="2" [thumb-label]="true" color="primary"></mat-slider>
+  <mat-button-toggle>
+    <mat-icon>edit</mat-icon>
+  </mat-button-toggle>
+</mat-toolbar>
