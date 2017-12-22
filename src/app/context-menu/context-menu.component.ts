@@ -1,5 +1,6 @@
 import { BrushService } from './../services/brush.service';
 import { Component, OnInit } from '@angular/core';
+import { MatSliderChange } from '@angular/material';
 
 @Component({
   selector: 'app-context-menu',
@@ -7,25 +8,64 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent implements OnInit {
+  public isSliding = false;
 
-  private _value: number;
+  private _isErasing: boolean;
+  private _brushSize: number;
+  private brushTimer;
+
   constructor(private brushService: BrushService) {
-    this.value = this.brushService.getBrush().size;
+    this._brushSize = this.brushService.getBrush().size;
   }
 
   ngOnInit() {
   }
 
-  public set value(value: number) {
-    this._value = value;
-    let brush = this.brushService.getBrush();
-    brush.size = value;
-    this.brushService.updateBrush(brush);
+  public set isErasing(value: boolean) {
+    this._isErasing = value;
+    this.brushService.changeColor(this._isErasing ? '#ffffff' : '#000000');
   }
 
-  public get value() {
-    return this._value;
+  public get isErasing(): boolean {
+    return this._isErasing;
   }
 
+  public set brushSize(value: number) {
+    this._brushSize = value;
+    this.brushService.changeBrushSize(value);
+  }
 
+  public get brushSize(): number {
+    return this._brushSize;
+  }
+
+  public onSliderMove(event: MatSliderChange) {
+    this.brushSize = event.value;
+  }
+
+  public toggleBrush() {
+    if (this.brushTimer) {
+      this.stopBrushTimer();
+    } else {
+      this.isSliding = !this.isSliding;
+    }
+  }
+
+  public showBrush() {
+    this.stopBrushTimer();
+    this.isSliding = true;
+    this.startBrushTimer();
+  }
+
+  private startBrushTimer() {
+    this.brushTimer = setTimeout(() => {
+      this.isSliding = false;
+      this.brushTimer = null;
+    }, 1000);
+  }
+
+  private stopBrushTimer() {
+    clearTimeout(this.brushTimer);
+    this.brushTimer = null;
+  }
 }

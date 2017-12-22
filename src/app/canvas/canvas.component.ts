@@ -21,7 +21,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   public onResize(event) {
-    console.log("window resize");
+    console.log('window resize');
   }
 
   public ngOnInit() {
@@ -65,7 +65,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   private startDrawing(): void {
     const brush = this.brushService.getBrush();
     this.drawContext.lineWidth = brush.size;
-    this.drawContext.lineCap = brush.style
+    this.drawContext.lineCap = brush.style;
     this.drawContext.strokeStyle = brush.color;
 
     this.isDrawing = true;

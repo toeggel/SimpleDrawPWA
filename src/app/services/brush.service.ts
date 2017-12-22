@@ -16,7 +16,11 @@ export class BrushService {
     return this.brush;
   }
 
-  public updateBrush(brush: IBrush) {
-    this.brush = brush;
+  public changeBrushSize(newSize: number) {
+    this.brush.size = newSize;
+  }
+
+  public changeColor(newHexColor: string) {
+    this.brush.color = newHexColor;
   }
 }
