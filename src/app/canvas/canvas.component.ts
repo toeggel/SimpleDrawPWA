@@ -13,8 +13,6 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas') canvas: ElementRef;
 
   private drawContext: CanvasRenderingContext2D;
-  private canvasElement: HTMLCanvasElement;
-
   private isDrawing = false;
 
   constructor(private brushService: BrushService) { }
@@ -28,13 +26,13 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.canvasElement = this.canvas.nativeElement;
-    this.drawContext = this.canvasElement.getContext('2d');
+    const canvasElement = this.canvas.nativeElement;
+    this.drawContext = canvasElement.getContext('2d');
 
-    this.canvasElement.width = this.canvasElement.clientWidth;
-    this.canvasElement.height = this.canvasElement.clientHeight;
+    canvasElement.width = canvasElement.clientWidth;
+    canvasElement.height = canvasElement.clientHeight;
 
-    this.registerEvents(this.canvasElement);
+    this.registerEvents(canvasElement);
   }
 
   private registerEvents(canvasElement: HTMLCanvasElement): void {
@@ -42,12 +40,14 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     let pointB: IPoint;
     const rect = canvasElement.getBoundingClientRect();
 
-    canvasElement.addEventListener('pointerdown', (event) => {
-      this.startDrawing();
+    document.addEventListener('pointerdown', (event) => {
       pointA = new Point(event.clientX - rect.left, event.clientY - rect.top);
+      pointB = pointA;
+      this.startDrawing();
+      this.drawLine(pointA, pointB);
     });
-
-    canvasElement.addEventListener('pointermove', (event) => {
+    
+    document.addEventListener('pointermove', (event) => {
       if (this.isDrawing) {
         pointB = new Point(event.clientX - rect.left, event.clientY - rect.top);
         this.drawLine(pointA, pointB);
@@ -55,8 +55,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       }
     });
 
-    ['pointerup', 'pointerout'].forEach((eventName) => {
-      canvasElement.addEventListener(eventName, (event: PointerEvent) => {
+    ['pointerup'].forEach((eventName) => {
+      document.addEventListener(eventName, (event: PointerEvent) => {
         this.stopDrawing();
       });
     });

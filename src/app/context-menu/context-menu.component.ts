@@ -9,6 +9,7 @@ import { MatSliderChange } from '@angular/material';
 })
 export class ContextMenuComponent implements OnInit {
   public isSliding = false;
+  public isBrushActive = true;
 
   private _isErasing: boolean;
   private _brushSize: number;
