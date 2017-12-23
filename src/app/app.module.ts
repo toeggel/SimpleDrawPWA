@@ -28,7 +28,7 @@ import { BrushService } from './services/brush.service';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('/SimpleDrawPWA/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FlexLayoutModule,
     MaterialModule,
     BrowserAnimationsModule,
