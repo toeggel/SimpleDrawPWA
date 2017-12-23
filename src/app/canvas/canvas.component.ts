@@ -46,7 +46,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       this.startDrawing();
       this.drawLine(pointA, pointB);
     });
-    
+
     document.addEventListener('pointermove', (event) => {
       if (this.isDrawing) {
         pointB = new Point(event.clientX - rect.left, event.clientY - rect.top);
