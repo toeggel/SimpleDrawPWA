@@ -1,18 +1,18 @@
 {
   "configVersion": 1,
-  "index": "SimpleDrawPWA/index.html",
+  "index": "/SimpleDrawPWA/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "SimpleDrawPWA/favicon.ico",
-        "SimpleDrawPWA/index.html",
-        "SimpleDrawPWA/inline.2c5590c79eb47665c4c3.bundle.js",
-        "SimpleDrawPWA/main.24ce2dd9e8d7d7b95281.bundle.js",
-        "SimpleDrawPWA/polyfills.f039bbc7aaddeebcb9aa.bundle.js",
-        "SimpleDrawPWA/styles.d6f2562b2d424f90345a.bundle.css"
+        "/SimpleDrawPWA/favicon.ico",
+        "/SimpleDrawPWA/index.html",
+        "/SimpleDrawPWA/inline.2c5590c79eb47665c4c3.bundle.js",
+        "/SimpleDrawPWA/main.24ce2dd9e8d7d7b95281.bundle.js",
+        "/SimpleDrawPWA/polyfills.f039bbc7aaddeebcb9aa.bundle.js",
+        "/SimpleDrawPWA/styles.d6f2562b2d424f90345a.bundle.css"
       ],
       "patterns": []
     },
@@ -26,11 +26,11 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "SimpleDrawPWA/inline.2c5590c79eb47665c4c3.bundle.js": "d978426a77a4f61048dca99f9a7eb53ceb3e3adf",
-    "SimpleDrawPWA/main.24ce2dd9e8d7d7b95281.bundle.js": "63c00b74f537ffb19b84544a50560fb4698fa970",
-    "SimpleDrawPWA/polyfills.f039bbc7aaddeebcb9aa.bundle.js": "669df48deb7f2148518a6e8e9490ba8ee2db7000",
-    "SimpleDrawPWA/styles.d6f2562b2d424f90345a.bundle.css": "0a8030aa0c54037d2716aa1a53316a591a274105",
-    "SimpleDrawPWA/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "SimpleDrawPWA/index.html": "53c4585a1079768acdf4f7c9037577cb23c59e0b"
+    "/SimpleDrawPWA/inline.2c5590c79eb47665c4c3.bundle.js": "d978426a77a4f61048dca99f9a7eb53ceb3e3adf",
+    "/SimpleDrawPWA/main.24ce2dd9e8d7d7b95281.bundle.js": "63c00b74f537ffb19b84544a50560fb4698fa970",
+    "/SimpleDrawPWA/polyfills.f039bbc7aaddeebcb9aa.bundle.js": "669df48deb7f2148518a6e8e9490ba8ee2db7000",
+    "/SimpleDrawPWA/styles.d6f2562b2d424f90345a.bundle.css": "0a8030aa0c54037d2716aa1a53316a591a274105",
+    "/SimpleDrawPWA/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/SimpleDrawPWA/index.html": "67ee05e3b16bbfd08b4aa5473ada814f807d54a0"
   }
 }
