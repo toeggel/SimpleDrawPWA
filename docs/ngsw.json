@@ -9,8 +9,9 @@
       "urls": [
         "/SimpleDrawPWA/favicon.ico",
         "/SimpleDrawPWA/index.html",
-        "/SimpleDrawPWA/inline.2c5590c79eb47665c4c3.bundle.js",
-        "/SimpleDrawPWA/main.24ce2dd9e8d7d7b95281.bundle.js",
+        "/SimpleDrawPWA/manifest.json",
+        "/SimpleDrawPWA/inline.0637d0bda3f97771999e.bundle.js",
+        "/SimpleDrawPWA/main.831711f94992943f1145.bundle.js",
         "/SimpleDrawPWA/polyfills.f039bbc7aaddeebcb9aa.bundle.js",
         "/SimpleDrawPWA/styles.d6f2562b2d424f90345a.bundle.css"
       ],
@@ -20,17 +21,41 @@
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
-      "urls": [],
+      "urls": [
+        "/SimpleDrawPWA/assets/icons/android-chrome-192x192.png",
+        "/SimpleDrawPWA/assets/icons/android-chrome-512x512.png",
+        "/SimpleDrawPWA/assets/icons/apple-touch-icon.png",
+        "/SimpleDrawPWA/assets/icons/favicon-16x16.png",
+        "/SimpleDrawPWA/assets/icons/favicon-32x32.png",
+        "/SimpleDrawPWA/assets/icons/mstile-144x144.png",
+        "/SimpleDrawPWA/assets/icons/mstile-150x150.png",
+        "/SimpleDrawPWA/assets/icons/mstile-310x150.png",
+        "/SimpleDrawPWA/assets/icons/mstile-310x310.png",
+        "/SimpleDrawPWA/assets/icons/mstile-70x70.png",
+        "/SimpleDrawPWA/assets/icons/safari-pinned-tab.svg"
+      ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/SimpleDrawPWA/inline.2c5590c79eb47665c4c3.bundle.js": "d978426a77a4f61048dca99f9a7eb53ceb3e3adf",
-    "/SimpleDrawPWA/main.24ce2dd9e8d7d7b95281.bundle.js": "63c00b74f537ffb19b84544a50560fb4698fa970",
+    "/SimpleDrawPWA/inline.0637d0bda3f97771999e.bundle.js": "4da63fcd1207a9c28a486c5c543f967c9f8e53c4",
+    "/SimpleDrawPWA/assets/icons/android-chrome-192x192.png": "b24d285055f1ad5045b03cd26e1dd58e18f2d098",
+    "/SimpleDrawPWA/main.831711f94992943f1145.bundle.js": "b70a4072902c2e7aee7ea59aad971016db1eead1",
+    "/SimpleDrawPWA/assets/icons/android-chrome-512x512.png": "9d277dad9bcb76a2fc984dd516bec0b6d67ff7f6",
     "/SimpleDrawPWA/polyfills.f039bbc7aaddeebcb9aa.bundle.js": "669df48deb7f2148518a6e8e9490ba8ee2db7000",
+    "/SimpleDrawPWA/assets/icons/apple-touch-icon.png": "eed89f7d570fa890be25f484248f0e7bda61e602",
     "/SimpleDrawPWA/styles.d6f2562b2d424f90345a.bundle.css": "0a8030aa0c54037d2716aa1a53316a591a274105",
-    "/SimpleDrawPWA/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/SimpleDrawPWA/index.html": "67ee05e3b16bbfd08b4aa5473ada814f807d54a0"
+    "/SimpleDrawPWA/assets/icons/favicon-16x16.png": "75c3cbc198d4151eff39b5f6fcf12fa34bf405a5",
+    "/SimpleDrawPWA/favicon.ico": "29da8803bc7ed795772b27dfe786142bbebf2327",
+    "/SimpleDrawPWA/assets/icons/favicon-32x32.png": "b3d8d8bc141ddd1eb5feda72b55d8ce493ab77ee",
+    "/SimpleDrawPWA/index.html": "8ec625dedade73f85ff9ebea3f0e0c93a5dd6649",
+    "/SimpleDrawPWA/assets/icons/mstile-144x144.png": "aaaf7edd8e8a7ea23ae057bfe6ce7a400b7d5764",
+    "/SimpleDrawPWA/manifest.json": "5dfed681822ca8b1d12e43040023e8a9ca30b1ea",
+    "/SimpleDrawPWA/assets/icons/mstile-150x150.png": "3fbbbba49eb32ec1a6f03286d42d4399d64292ba",
+    "/SimpleDrawPWA/assets/icons/mstile-310x150.png": "5f3fe6bff2c5ee58f889630e5c8276deb5ff3e97",
+    "/SimpleDrawPWA/assets/icons/mstile-310x310.png": "8662493871157f5ea86bb62ae61512c4391dcf48",
+    "/SimpleDrawPWA/assets/icons/mstile-70x70.png": "a0fdb93ae034a16c7e01bf8aec8df1e69f4a1aee",
+    "/SimpleDrawPWA/assets/icons/safari-pinned-tab.svg": "42a23f96ffd40017fe10f0dc34e29d81b2666a63"
   }
 }
