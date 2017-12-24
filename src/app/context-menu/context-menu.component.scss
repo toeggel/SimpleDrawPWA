@@ -36,11 +36,6 @@ button {
     width: 4px;
     height: 4px;
     border: 0;
-    background: #000000;
     border: 1px solid #000000;
-  
-    &.erase {
-      background: #ffffff;
-    }
   }
 }

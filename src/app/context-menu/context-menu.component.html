@@ -25,7 +25,7 @@
 <app-color-picker (click)="paletteActive = false" [style.display]="paletteActive ? 'inherit' : 'none'"></app-color-picker>
 
 <div class="brush" *ngIf="isSliding">
-  <span class="circle circle__outer" [class.erase]="isErasing">
-    <span class="circle circle__inner" [class.erase]="isErasing" [style.width.px]="brushSize" [style.height.px]="brushSize"></span>
+  <span class="circle circle__outer">
+    <span class="circle circle__inner" [style.background-color]="brushColor" [style.width.px]="brushSize" [style.height.px]="brushSize"></span>
   </span>
 </div>

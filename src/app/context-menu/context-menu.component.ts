@@ -41,6 +41,10 @@ export class ContextMenuComponent implements OnInit {
     return this._brushSize;
   }
 
+  public get brushColor(): string {
+    return this.brushService.getBrush().color;
+  }
+
   public onSliderMove(event: MatSliderChange) {
     this.brushSize = event.value;
   }
