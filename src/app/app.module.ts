@@ -16,13 +16,15 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 import { BrushService } from './services/brush.service';
+import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     CanvasComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    ColorPickerComponent
   ],
   imports: [
     BrowserModule,
