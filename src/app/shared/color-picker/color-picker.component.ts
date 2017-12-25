@@ -20,7 +20,7 @@ export class ColorPickerComponent implements OnInit {
   public clickedOutsideOfCompenent(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isOpen = false;
-    } 
+    }
   }
 
   public set selectedColor(color: string) {

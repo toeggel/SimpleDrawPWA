@@ -5,7 +5,7 @@
       <mat-icon>color_lense</mat-icon>
     </button>
     <div fxShow fxHide.lt-sm fxFlex>
-      <button mat-button routerLink="/link">link</button>
+      <button disabled mat-button routerLink="/link">link</button>
     </div>
   </div>
   <div fxHide fxShow.lt-sm>
@@ -14,7 +14,7 @@
     </button>
   </div>
   <mat-menu #menu="matMenu" fxHide fxShow.lt-sm>
-    <button mat-menu-item routerLink="/link">
+    <button disabled mat-menu-item routerLink="/link">
       <mat-icon>dialpad</mat-icon>
       <span>link</span>
     </button>

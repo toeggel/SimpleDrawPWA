@@ -1,9 +1,3 @@
-<!-- <button fxHide fxShow.lt-sm class="fab" mat-mini-fab>
-  <mat-icon>color_lense</mat-icon>
-</button> -->
-<!-- <button fxShow fxHide.lt-sm class="fab" mat-fab>
-  <mat-icon>color_lense</mat-icon>
-</button> -->
 <mat-toolbar class="mat-elevation-z6" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
   <app-color-picker></app-color-picker>
   <button disabled mat-icon-button color="primary">
@@ -19,8 +13,6 @@
     <mat-icon *ngIf="!isActiveTool(ToolType.Eraser)">highlight</mat-icon>
   </button>
 </mat-toolbar>
-
-<app-color-picker *ngIf="paletteActive" (click)="paletteActive = false"></app-color-picker>
 
 <!-- todo: create component -->
 <div class="brush" *ngIf="showBrushDisplay">

@@ -14,7 +14,7 @@ export class ContextMenuComponent implements OnInit {
   public ToolType: typeof ToolType = ToolType;
   public showBrushDisplay = false;
 
-  private brushTimer; //: NodeJS.Timer;
+  private brushTimer: NodeJS.Timer;
 
   public constructor(private toolService: ToolService) { }
 
