@@ -1,5 +1,9 @@
-<div *ngIf="isOpen" class="color-picker__wrapper">
-  <mat-card class="color-picker">
+<div *ngIf="isOpen" class="color-picker">
+    <div class="color-picker__wrapper">
+  <mat-card class="color-picker__content" fxLayout="column" fxLayoutAlign="center end">
+    <button mat-icon-button color="primary">
+      <mat-icon>close</mat-icon>
+    </button>
     <div class="color-picker__divider" fxLayoutAlign="center center" fxLayoutGap="8px">
       <div class="color-picker__color-display" [style.background-color]="selectedColor" fxFlex="40px"></div>
       <mat-form-field>
@@ -9,13 +13,14 @@
         <mat-icon>colorize</mat-icon>
       </button>
     </div>
-    <mat-grid-list cols="5" rowHeight="1:1">
-      <mat-grid-tile *ngFor="let color of getHexColors()" [style.background-color]="color">
-        <button mat-icon-button (click)="selectedColor = color; $event.preventDefault();"></button>
+    <mat-grid-list class="color-picker__colors" cols="5" rowHeight="40px">
+      <mat-grid-tile *ngFor="let color of getHexColors()" [style.background-color]="color"  (click)="selectedColor = color; $event.preventDefault();">
+        <button mat-icon-button></button>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-card>
   <div class="arrow-down"></div>
+</div>
 </div>
 
 <button mat-icon-button color="primary" (click)="isOpen = !isOpen">

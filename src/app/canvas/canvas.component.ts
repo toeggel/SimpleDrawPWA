@@ -34,13 +34,13 @@ export class CanvasComponent implements OnInit, AfterViewInit {
       activeTool.onStartAction(drawContext, this.getCurrentPointerPosition(event, rect));
     });
 
-    canvasElement.addEventListener('pointermove', (event) => {
+    document.addEventListener('pointermove', (event) => {
       const activeTool = this.toolService.getActiveTool();
       activeTool.onMoveAction(drawContext, this.getCurrentPointerPosition(event, rect));
     });
 
     ['pointerup'].forEach((eventName) => {
-      canvasElement.addEventListener(eventName, (event: PointerEvent) => {
+      document.addEventListener(eventName, (event: PointerEvent) => {
         const activeTool = this.toolService.getActiveTool();
         activeTool.onEndAction();
       });

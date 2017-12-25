@@ -1,18 +1,21 @@
 :host {
-  position: relative;
+  all: initial;
 }
 
 .color-picker {
-  padding: 8px;
-  width: 240px;
-  mat-form-field {
-    width: 145px;
-  }
+  position: relative;
 
   &__wrapper {
     position: absolute;
-    bottom: 30px;
+    bottom: -10px;
     left: 14px;
+  }
+
+  &__content {
+    padding: 8px;
+    .mat-form-field {
+      width: 105px;
+    }
   }
 
   &__divider {
@@ -22,8 +25,12 @@
 
   &__color-display {
     padding-left: 8px;
-    min-height: 40px;
+    height: 40px;
     border: 1px solid black;
+  }
+
+  &__colors {
+    width: 200px;
   }
 }
 

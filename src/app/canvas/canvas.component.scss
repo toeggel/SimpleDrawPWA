@@ -9,12 +9,15 @@
   flex-direction: column;
   flex: 1;
 
+  position:relative;
   overflow: hidden;
-  
+
   margin: 15px;
 }
 
 .canvas {
+  position:absolute; 
+
   min-width: 2000px;
   min-height: 2000px;
   

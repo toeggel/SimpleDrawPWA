@@ -14,9 +14,9 @@
   <button disabled mat-icon-button color="primary" [class.mat-select-content]="false">
     <mat-icon>open_with</mat-icon>
   </button>
-  <button mat-icon-button color="primary" [class.erase]="isActiveTool(ToolType.Eraser)" (click)="onBrushClick()">
-    <mat-icon *ngIf="!isActiveTool(ToolType.Eraser)">edit</mat-icon>
-    <mat-icon *ngIf="isActiveTool(ToolType.Eraser)">highlight</mat-icon>
+  <button mat-icon-button color="primary" [class.erase]="!isActiveTool(ToolType.Eraser)" (click)="onBrushClick()">
+    <mat-icon *ngIf="isActiveTool(ToolType.Eraser)">edit</mat-icon>
+    <mat-icon *ngIf="!isActiveTool(ToolType.Eraser)">highlight</mat-icon>
   </button>
 </mat-toolbar>
 
