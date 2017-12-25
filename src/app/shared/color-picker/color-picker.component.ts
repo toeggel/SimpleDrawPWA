@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BrushService } from '../../services/brush.service';
+import { ToolService } from '../../services/tool.service';
 
 @Component({
   selector: 'app-color-picker',
@@ -8,15 +8,18 @@ import { BrushService } from '../../services/brush.service';
 })
 export class ColorPickerComponent implements OnInit {
 
-  public selectedColor = '#000000';
-  constructor(private brushService: BrushService) { }
+  public _selectedColor = '#000000';
+  constructor(private toolService: ToolService) { }
 
   ngOnInit() {
   }
 
-  public setColor(color: string) {
-    this.selectedColor = color;
-    this.brushService.changeColor(color);
+  public set selectedColor(color: string) {
+    this.toolService.getActiveTool().toolOptions.toolColor = color;
+  }
+
+  public get selectedColor(): string {
+    return this.toolService.getActiveTool().toolOptions.toolColor;
   }
 
   public getHexColors(): string[] {

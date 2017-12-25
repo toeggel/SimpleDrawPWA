@@ -15,8 +15,8 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 
-import { BrushService } from './services/brush.service';
 import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
+import { ToolService } from './services/tool.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { ColorPickerComponent } from './shared/color-picker/color-picker.compone
     MaterialModule,
     BrowserAnimationsModule,
   ],
-  providers: [BrushService],
+  providers: [ToolService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

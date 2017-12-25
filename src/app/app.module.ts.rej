@@ -1,0 +1,9 @@
+diff a/src/app/app.module.ts b/src/app/app.module.ts	(rejected hunks)
+@@ -20,6 +20,7 @@
+ +import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
+ +=======
+  import { ToolService } from "./services/tool.service";
+++>>>>>>> Stashed changes
+  
+  @NgModule({
+    declarations: [

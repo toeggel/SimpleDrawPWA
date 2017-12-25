@@ -1,6 +1,7 @@
-import { BrushService } from './../services/brush.service';
 import { Component, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
+import { ToolService } from '../services/tool.service';
+import { ToolType } from '../models/tool';
 
 @Component({
   selector: 'app-context-menu',
@@ -8,69 +9,66 @@ import { MatSliderChange } from '@angular/material';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent implements OnInit {
-  public isSliding = false;
-  public isBrushActive = true;
+
+  // provide enum values in html template
+  public ToolType: typeof ToolType = ToolType;
   public paletteActive = false;
+  public showBrushDisplay = false;
 
-  private _isErasing: boolean;
-  private _brushSize: number;
-  private brushTimer;
+  private brushTimer; //: NodeJS.Timer;
 
-  constructor(private brushService: BrushService) {
-    this._brushSize = this.brushService.getBrush().size;
-  }
+  public constructor(private toolService: ToolService) { }
 
-  ngOnInit() {
-  }
+  public ngOnInit() { }
 
-  public set isErasing(value: boolean) {
-    this._isErasing = value;
-    this.brushService.changeColor(this._isErasing ? '#ffffff' : '#000000');
-  }
+  public selectTool(toolType: ToolType): void {
+    this.toolService.selectTool(toolType);
 
-  public get isErasing(): boolean {
-    return this._isErasing;
-  }
-
-  public set brushSize(value: number) {
-    this._brushSize = value;
-    this.brushService.changeBrushSize(value);
-  }
-
-  public get brushSize(): number {
-    return this._brushSize;
-  }
-
-  public get brushColor(): string {
-    return this.brushService.getBrush().color;
-  }
-
-  public onSliderMove(event: MatSliderChange) {
-    this.brushSize = event.value;
-  }
-
-  public toggleBrush() {
-    if (this.brushTimer) {
-      this.stopBrushTimer();
-    } else {
-      this.isSliding = !this.isSliding;
+    if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
+      this.showBrush();
     }
   }
 
-  public showBrush() {
+  public isActiveTool(toolType: ToolType): boolean {
+    return this.toolService.isActiveTool(toolType);
+  }
+
+  public set toolSize(value: number) {
+    this.toolService.getActiveTool().toolOptions.toolSize = value;
+  }
+
+  public get toolSize(): number {
+    return this.toolService.getActiveTool().toolOptions.toolSize;
+  }
+
+  public get toolColor(): string {
+    return this.toolService.getActiveTool().toolOptions.toolColor;
+  }
+
+  public onBrushClick(): void {
+    this.isActiveTool(ToolType.Brush) ? this.selectTool(ToolType.Eraser) : this.selectTool(ToolType.Brush);
+  }
+
+  // the mat slider does not detect value change during "sliding" -> hence we have a listener that changes the size while "sliding"
+  public onSliderMove(event: MatSliderChange): void {
+    this.toolSize = event.value;
+    this.showBrush();
+  }
+
+  private showBrush(): void {
     this.stopBrushTimer();
-    this.isSliding = true;
+    this.showBrushDisplay = true;
     this.startBrushTimer();
   }
 
-  private startBrushTimer() {
+  private startBrushTimer(): void {
     this.brushTimer = setTimeout(() => {
-      this.isSliding = false;
+      this.showBrushDisplay = false;
       this.brushTimer = null;
-    }, 1000);
+    }, 1500);
   }
 
-  private stopBrushTimer() {
+  private stopBrushTimer(): void {
     clearTimeout(this.brushTimer);
     this.brushTimer = null;
   }
