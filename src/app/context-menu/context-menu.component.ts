@@ -12,7 +12,6 @@ export class ContextMenuComponent implements OnInit {
 
   // provide enum values in html template
   public ToolType: typeof ToolType = ToolType;
-  public paletteActive = false;
   public showBrushDisplay = false;
 
   private brushTimer; //: NodeJS.Timer;

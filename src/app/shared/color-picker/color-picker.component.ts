@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ToolService } from '../../services/tool.service';
 
 @Component({
@@ -8,10 +8,19 @@ import { ToolService } from '../../services/tool.service';
 })
 export class ColorPickerComponent implements OnInit {
 
-  public _selectedColor = '#000000';
-  constructor(private toolService: ToolService) { }
+  public isOpen = false;
 
-  ngOnInit() {
+  private _selectedColor = '#000000';
+
+  public constructor(private elementRef: ElementRef, private toolService: ToolService) { }
+
+  public ngOnInit() { }
+
+  @HostListener('document:pointerdown', ['$event'])
+  public clickedOutsideOfCompenent(event) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isOpen = false;
+    } 
   }
 
   public set selectedColor(color: string) {

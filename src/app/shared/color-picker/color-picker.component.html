@@ -1,17 +1,23 @@
-<mat-card class="color-picker">
-  <div class="color-picker__divider" fxLayoutAlign="center center" fxLayoutGap="8px">
-    <div class="color-picker__color-display" [style.background-color]="selectedColor" fxFlex="40px"></div>
-    <mat-form-field>
-      <input matInput required type="string" placeholder="Selected Color" [(ngModel)]="selectedColor">
-    </mat-form-field>
-    <button mat-icon-button color="primary">
-      <mat-icon>colorize</mat-icon>
-    </button>
-  </div>
-  <mat-grid-list cols="5" rowHeight="1:1">
-    <mat-grid-tile *ngFor="let color of getHexColors()" [style.background-color]="color">
-      <button mat-icon-button (click)="selectedColor = color; $event.preventDefault();"></button>
-    </mat-grid-tile>
-  </mat-grid-list>
-</mat-card>
-<div class="arrow-down"></div>
+<div *ngIf="isOpen" class="color-picker__wrapper">
+  <mat-card class="color-picker">
+    <div class="color-picker__divider" fxLayoutAlign="center center" fxLayoutGap="8px">
+      <div class="color-picker__color-display" [style.background-color]="selectedColor" fxFlex="40px"></div>
+      <mat-form-field>
+        <input matInput required type="string" placeholder="Selected Color" [(ngModel)]="selectedColor">
+      </mat-form-field>
+      <button mat-icon-button color="primary">
+        <mat-icon>colorize</mat-icon>
+      </button>
+    </div>
+    <mat-grid-list cols="5" rowHeight="1:1">
+      <mat-grid-tile *ngFor="let color of getHexColors()" [style.background-color]="color">
+        <button mat-icon-button (click)="selectedColor = color; $event.preventDefault();"></button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+  <div class="arrow-down"></div>
+</div>
+
+<button mat-icon-button color="primary" (click)="isOpen = true">
+  <mat-icon>palette</mat-icon>
+</button>

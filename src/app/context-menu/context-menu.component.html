@@ -5,9 +5,7 @@
   <mat-icon>color_lense</mat-icon>
 </button> -->
 <mat-toolbar class="mat-elevation-z6" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-  <button mat-icon-button color="primary" (click)="paletteActive = true">
-    <mat-icon>palette</mat-icon>
-  </button>
+  <app-color-picker></app-color-picker>
   <button disabled mat-icon-button color="primary">
     <mat-icon>format_color_fill</mat-icon>
   </button>
@@ -22,8 +20,9 @@
   </button>
 </mat-toolbar>
 
-<app-color-picker (click)="paletteActive = false" [style.display]="paletteActive ? 'inherit' : 'none'"></app-color-picker>
+<app-color-picker *ngIf="paletteActive" (click)="paletteActive = false"></app-color-picker>
 
+<!-- todo: create component -->
 <div class="brush" *ngIf="showBrushDisplay">
   <span class="circle circle__outer">
     <span class="circle circle__inner" [style.background-color]="isActiveTool(ToolType.Eraser) ? '#ffffff' : toolColor" [style.width.px]="toolSize"

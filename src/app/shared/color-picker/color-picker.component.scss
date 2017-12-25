@@ -1,8 +1,5 @@
 :host {
-  position: absolute;
-  bottom: 43px;
-  right: 50%;
-  transform: translateX(calc(50% - 26px));
+  position: relative;
 }
 
 .color-picker {
@@ -10,6 +7,12 @@
   width: 240px;
   mat-form-field {
     width: 145px;
+  }
+
+  &__wrapper {
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
   }
 
   &__divider {
