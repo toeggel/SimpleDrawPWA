@@ -15,10 +15,17 @@ describe('ContextMenuComponent', () => {
   beforeEach(async(() => {
     this.toolServiceMock = jasmine.createSpyObj<ToolService>(ToolService.name, ['getActiveTool']);
 
+    this.toolServiceMock.getActiveTool.and.returnValue({
+      toolOptions: {
+        toolSize: '3',
+        toolColor: '#112233',
+      }
+    });
+
     TestBed.configureTestingModule({
       declarations: [ContextMenuComponent, MockComponent(ColorPickerComponent)],
       imports: [MaterialModule, FormsModule],
-      providers: [{ provide: ToolService, useValue: this.toolServiceMock }]
+      providers: [ToolService]
     }).compileComponents();
   }));
 
