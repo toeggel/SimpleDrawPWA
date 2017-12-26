@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
 import { ToolService } from '../services/tool.service';
 import { ToolType } from '../models/tool';
@@ -20,6 +20,11 @@ export class ContextMenuComponent implements OnInit {
 
   public ngOnInit() { }
 
+  @HostListener('window:wheel', ['$event'])
+  public onMouseWheel(event: WheelEvent) {
+    this.toolSize  = Math.min(Math.max(1, this.toolSize + event.deltaY / 100), 50);
+  }
+
   public selectTool(toolType: ToolType): void {
     this.toolService.selectTool(toolType);
 
@@ -33,6 +38,7 @@ export class ContextMenuComponent implements OnInit {
   }
 
   public set toolSize(value: number) {
+    this.showBrush();
     this.toolService.getActiveTool().toolOptions.toolSize = value;
   }
 
@@ -51,7 +57,6 @@ export class ContextMenuComponent implements OnInit {
   // the mat slider does not detect value change during "sliding" -> hence we have a listener that changes the size while "sliding"
   public onSliderMove(event: MatSliderChange): void {
     this.toolSize = event.value;
-    this.showBrush();
   }
 
   private showBrush(): void {
