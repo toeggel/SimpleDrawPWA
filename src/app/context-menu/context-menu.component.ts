@@ -9,7 +9,6 @@ import { ToolType } from '../models/tool';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent implements OnInit {
-
   // provide enum values in html template
   public ToolType: typeof ToolType = ToolType;
   public showBrushDisplay = false;
@@ -22,19 +21,7 @@ export class ContextMenuComponent implements OnInit {
 
   @HostListener('window:wheel', ['$event'])
   public onMouseWheel(event: WheelEvent) {
-    this.toolSize  = Math.min(Math.max(1, this.toolSize + event.deltaY / 100), 50);
-  }
-
-  public selectTool(toolType: ToolType): void {
-    this.toolService.selectTool(toolType);
-
-    if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
-      this.showBrush();
-    }
-  }
-
-  public isActiveTool(toolType: ToolType): boolean {
-    return this.toolService.isActiveTool(toolType);
+    this.toolSize = Math.min(Math.max(1, this.toolSize + event.deltaY / 100), 50);
   }
 
   public set toolSize(value: number) {
@@ -57,6 +44,18 @@ export class ContextMenuComponent implements OnInit {
   // the mat slider does not detect value change during "sliding" -> hence we have a listener that changes the size while "sliding"
   public onSliderMove(event: MatSliderChange): void {
     this.toolSize = event.value;
+  }
+
+  public selectTool(toolType: ToolType): void {
+    this.toolService.selectTool(toolType);
+
+    if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
+      this.showBrush();
+    }
+  }
+
+  public isActiveTool(toolType: ToolType): boolean {
+    return this.toolService.isActiveTool(toolType);
   }
 
   private showBrush(): void {

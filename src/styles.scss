@@ -7,15 +7,15 @@ html {
   height: 100%;
 }
 
-.alternative-theme {
-  @include angular-material-theme($alternative-theme);
+body {
+  margin: 0;
+  height: 100%;
 }
 
 .main-theme {
   @include angular-material-theme($main-theme);
 }
 
-body {
-  margin: 0;
-  height: 100%;
+.alternative-theme, .offline {
+  @include angular-material-theme($alternative-theme);
 }
