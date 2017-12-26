@@ -21,7 +21,7 @@ export class ContextMenuComponent implements OnInit {
 
   @HostListener('window:wheel', ['$event'])
   public onMouseWheel(event: WheelEvent) {
-    this.toolSize = Math.min(Math.max(1, this.toolSize + event.deltaY / 100), 50);
+    this.toolSize = Math.min(Math.max(1, this.toolSize + (event.deltaY > 0 ? 1 : -1)), 50);
   }
 
   public set toolSize(value: number) {
