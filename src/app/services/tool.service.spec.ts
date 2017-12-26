@@ -15,8 +15,9 @@ describe('ToolService', () => {
 
   describe('getActiveTool', () => {
     it('returns brush by default', inject([ToolService], (service: ToolService) => {
-      let sut = new ToolService();
-      expect(sut.getActiveTool().constructor.name).toBe('Brush');
+      const sut = new ToolService();
+      const defaultTool = sut.getActiveTool();
+      expect(defaultTool.constructor.name).toBe('Brush');
     }));
   });
 });

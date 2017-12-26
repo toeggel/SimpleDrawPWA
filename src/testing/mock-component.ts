@@ -12,7 +12,10 @@ export function MockComponent<TComponent>(component: Type<TComponent>): Type<TCo
     providers: [{
       multi: true,
       provide: NG_VALUE_ACCESSOR,
+      /* tslint:disable:no-use-before-declare */
       useExisting: forwardRef(() => ComponentMock)
+      /* tslint:enable:no-use-before-declare */
+
     }],
     selector: getComponentSelector(component),
     template: '<ng-content></ng-content>'
@@ -28,16 +31,12 @@ export function MockComponent<TComponent>(component: Type<TComponent>): Type<TCo
       });
     }
 
-    /* tslint:disable:no-empty */
     registerOnChange = (fn: (value: any) => void) => { };
     registerOnTouched = (fn: (value: any) => void) => { };
     writeValue = (value: any) => { };
-    /* tslint:enable:no-empty */
   }
 
-  /* tslint:disable:no-angle-bracket-type-assertion */
   return Component(options as Component)(<any>ComponentMock as Type<TComponent>);
-  /* tslint:enable:no-angle-bracket-type-assertion */
 }
 
 function isInput(propertyMetadata: any): boolean {
