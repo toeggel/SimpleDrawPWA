@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="end center" class="menu-bar--draggable menu-bar--not-selectable">
+  <button color="primary" mat-button (click)="minimize.emit()" class="menu-bar--not-draggable">
+    <mat-icon>remove</mat-icon>
+  </button>
+  <button  color="primary" *ngIf="!isInFullScreen" mat-button (click)="enterFullScreen.emit()" class="menu-bar--not-draggable">
+    <mat-icon>fullscreen</mat-icon>
+  </button>
+  <button  color="primary" *ngIf="isInFullScreen" mat-button (click)="exitFullScreen.emit()" class="menu-bar--not-draggable">
+    <mat-icon>fullscreen_exit</mat-icon>
+  </button>
+  <button  color="primary" mat-button (click)="close.emit()" class="menu-bar--not-draggable">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

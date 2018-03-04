@@ -1,0 +1,20 @@
+:host {
+  .mat-button {
+    min-width: auto;
+    padding: 0 6px;
+  }
+}
+
+.menu-bar {
+  &--draggable {
+    -webkit-app-region: drag;
+  }
+
+  &--not-draggable {
+    -webkit-app-region: no-drag;
+  }
+
+  &--not-selectable {
+    -webkit-user-select: none;
+  }
+}
