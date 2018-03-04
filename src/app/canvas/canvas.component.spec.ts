@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MockComponent } from 'mock-component';
 
 import { MaterialModule } from '../material/material.module';
-import { MockComponent } from '../../testing/mock-component';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { CanvasComponent } from './canvas.component';
 import { ToolService } from '../services/tool.service';
