@@ -10,8 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build && electron .",
-    "electron-aot": "ng build --prod && electron ."
+    "electron": "ng build --base-href --watch | electron .",
+    "electron--prod": "ng build --prod --base-href --watch | electron ."
   },
   "private": true,
   "dependencies": {
@@ -42,6 +42,7 @@
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
     "electron": "^1.8.2",
+    "electron-reload": "^1.2.2",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
