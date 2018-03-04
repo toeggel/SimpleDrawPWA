@@ -10,8 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build --base-href --watch | electron .",
-    "electron--prod": "ng build --prod --base-href --watch | electron ."
+    "electron": " electron . | ng build --base-href --watch",
+    "electron--prod": " electron . | ng build --prod --base-href --watch"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +30,7 @@
     "@angular/service-worker": "^5.0.0",
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
+    "ngx-electron": "^1.0.4",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
   },

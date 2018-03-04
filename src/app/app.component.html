@@ -1,2 +1,5 @@
+<app-menu-bar *ngIf="isElectronApp" [isInFullScreen]="isInFullScreen" (minimize)="onMinimize()" (close)="onClose()" (enterFullScreen)="onEnterFullScreen()"
+  (exitFullScreen)="onExitFullScreen()">
+</app-menu-bar>
 <app-navigation></app-navigation>
 <router-outlet></router-outlet>
