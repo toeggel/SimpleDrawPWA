@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NgxElectronModule} from 'ngx-electron';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgxElectronModule } from 'ngx-electron';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +19,9 @@ import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 import { ToolService } from './services/tool.service';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import { toolReducer, appState } from './app.reducer';
+
+
 
 @NgModule({
   declarations: [
@@ -35,6 +40,10 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FlexLayoutModule,
     NgxElectronModule,
+    StoreModule.forRoot(appState),
+    StoreDevtoolsModule.instrument({
+      maxAge: 50, // Retains last x states
+    }),
     AppRoutingModule
   ],
   providers: [ToolService],

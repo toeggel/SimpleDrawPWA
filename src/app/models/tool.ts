@@ -1,6 +1,7 @@
 import { IPoint } from './point';
 
 export interface ITool {
+  type: ToolType;
   toolOptions: ToolOptions;
   onStartAction: (drawContext: CanvasRenderingContext2D, currentPosition: IPoint) => void;
   onMoveAction: (drawContext: CanvasRenderingContext2D, currentPosition: IPoint) => void;
@@ -18,7 +19,7 @@ export class ToolOptions {
 }
 
 export enum ToolType {
-  Brush,
-  Eraser,
-  ColorPicker
+  Brush = 'Brush',
+  Eraser = 'Eraser',
+  ColorPicker = 'ColorPicker'
 }

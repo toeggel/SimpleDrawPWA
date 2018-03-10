@@ -2,6 +2,7 @@ import { ToolOptions, ToolType, ITool } from './tool';
 import { IPoint } from './point';
 
 export class Brush implements ITool {
+  public type: ToolType = ToolType.Brush;
   public toolOptions: ToolOptions;
 
   private style: string;

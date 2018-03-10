@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { ITool, ToolType, ToolOptions } from '../models/tool';
 import { Brush } from '../models/brush';
 import { Eraser } from '../models/eraser';
+import { AppState } from '../app.store';
+import { SwitchToolAction } from '../app.action';
 
 @Injectable()
 export class ToolService {
   private activeTool: ITool;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     this.activeTool = new Brush(new ToolOptions());
   }
 
@@ -16,6 +20,7 @@ export class ToolService {
   }
 
   public selectTool(toolType: ToolType): void {
+
     switch (toolType) {
       case ToolType.Brush:
         this.activeTool = new Brush(this.activeTool.toolOptions);
@@ -26,6 +31,8 @@ export class ToolService {
       default:
         break;
     }
+
+    this.store.dispatch(new SwitchToolAction(this.activeTool));
   }
 
   public isActiveTool(toolType: ToolType): boolean {
