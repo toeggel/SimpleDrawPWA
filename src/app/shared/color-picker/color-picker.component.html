@@ -5,9 +5,9 @@
       <mat-icon>close</mat-icon>
     </button>
     <div class="color-picker__divider" fxLayoutAlign="center center" fxLayoutGap="8px">
-      <div class="color-picker__color-display" [style.background-color]="selectedColor" fxFlex="40px"></div>
+      <div class="color-picker__color-display" [style.background-color]="color" fxFlex="40px"></div>
       <mat-form-field>
-        <input matInput type="string" placeholder="Selected Color" [(ngModel)]="selectedColor">
+        <input matInput type="string" placeholder="Selected Color" [(ngModel)]="color">
       </mat-form-field>
       <button disabled mat-icon-button color="primary">
         <mat-icon>colorize</mat-icon>

@@ -23,13 +23,13 @@ export function drawReducer(state: DrawState = initialToolState, action: ToolAct
   switch (action.type) {
 
     case SwitchToolAction.TYPE:
-      const tool: ITool = (<SwitchToolAction>action).tool;
+      const toolType: ToolType = (<SwitchToolAction>action).toolType;
       return {
         ...state,
-        toolType: tool.type,
+        toolType: toolType,
         drawContext: {
           ...state.drawContext,
-          compositionType: tool.type === ToolType.Eraser ? DrawCompositionType.Erase : DrawCompositionType.Default
+          compositionType: toolType === ToolType.Eraser ? DrawCompositionType.Erase : DrawCompositionType.Default
         }
       };
 

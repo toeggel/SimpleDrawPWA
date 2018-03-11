@@ -1,31 +1,43 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { SwitchToolAction, ChangeToolSizeAction, ChangeToolColorAction } from '../app.action';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import '../shared/rxjs-operators';
 import { IPoint, Point } from '../models/point';
 import { ToolService } from '../services/tool.service';
-import { AppStore } from '../app.store';
-import { ITool } from '../models/tool';
+import { AppStore, AppState } from '../app.store';
+import { ITool, ToolType } from '../models/tool';
 import { Brush } from '../models/brush';
+import { Store } from '@ngrx/store';
+import { Eraser } from '../models/eraser';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements OnInit, AfterViewInit {
+export class CanvasComponent implements AfterViewInit {
 
   @ViewChild('canvas') canvas: ElementRef;
 
-  private activeTool$: Observable<ITool>;
+  activeTool$: Observable<ITool>;
+  color$: Observable<string>;
+  toolSize$: Observable<number>;
+  brushDisplayColor$: Observable<string>;
+  showBrushDisplay = false;
+
   private pointerdown$: Observable<PointerEvent>;
   private pointermove$: Observable<PointerEvent>;
   private pointerup$: Observable<PointerEvent>;
 
-  constructor(private toolService: ToolService, private store: AppStore) {
-    this.activeTool$ = this.store.tool$;
+  private brushTimer: NodeJS.Timer;
+
+  constructor(private toolService: ToolService, private appStore: AppStore, private store: Store<AppState>) {
+    this.activeTool$ = this.appStore.tool$;
+    this.color$ = this.appStore.tool$.map(t => t.toolOptions.toolColor);
+    this.toolSize$ = this.appStore.tool$.map(t => t.toolOptions.toolSize);
+    this.brushDisplayColor$ = this.activeTool$.switchMap(c => c.type === ToolType.Eraser ? Observable.of('#ffffff') : this.color$);
   }
-  public ngOnInit() { }
 
   public ngAfterViewInit() {
     const canvasElement = this.canvas.nativeElement;
@@ -51,8 +63,47 @@ export class CanvasComponent implements OnInit, AfterViewInit {
           this.getCurrentPointerPosition(event, canvasElement)));
   }
 
+  public onToolChange(toolType: ToolType): void {
+    this.toolService.selectTool(toolType);
+    this.store.dispatch(new SwitchToolAction(toolType));
+
+    if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
+      this.showBrush();
+    }
+  }
+
+  public onSizeChange(size: number): void {
+    this.toolService.getActiveTool().toolOptions.toolSize = size;
+    this.store.dispatch(new ChangeToolSizeAction(size));
+    this.showBrush();
+  }
+
+  public onColorChange(color: string): void {
+    this.toolService.getActiveTool().toolOptions.toolColor = color;
+    this.store.dispatch(new ChangeToolColorAction(color));
+    this.showBrush();
+  }
+
   private getCurrentPointerPosition(event: PointerEvent, canvasElement: Element): IPoint {
     const canvasBoundingRect = canvasElement.getBoundingClientRect();
     return new Point(event.clientX - canvasBoundingRect.left, event.clientY - canvasBoundingRect.top);
+  }
+
+  private showBrush(): void {
+    this.stopBrushTimer();
+    this.showBrushDisplay = true;
+    this.startBrushTimer();
+  }
+
+  private startBrushTimer(): void {
+    this.brushTimer = setTimeout(() => {
+      this.showBrushDisplay = false;
+      this.brushTimer = null;
+    }, 1500);
+  }
+
+  private stopBrushTimer(): void {
+    clearTimeout(this.brushTimer);
+    this.brushTimer = null;
   }
 }

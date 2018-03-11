@@ -1,41 +1,32 @@
-import { Component, OnInit, Input, HostListener, ElementRef, Output, EventEmitter } from '@angular/core';
-import { ToolService } from '../../services/tool.service';
-import { AppState } from '../../app.store';
-import { Store } from '@ngrx/store';
-import { ChangeToolColorAction } from '../../app.action';
+import { Component, Input, HostListener, ElementRef, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
-  styleUrls: ['./color-picker.component.scss']
+  styleUrls: ['./color-picker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ColorPickerComponent implements OnInit {
+export class ColorPickerComponent {
 
-  public isOpen = false;
+  @Input() color = '#000000';
+  @Output() colorChange: EventEmitter<string> = new EventEmitter();
 
-  private _selectedColor = '#000000';
+  isOpen = false;
 
-  public constructor(private elementRef: ElementRef, private toolService: ToolService, private store: Store<AppState>) { }
-
-  public ngOnInit() { }
+  constructor(private elementRef: ElementRef) { }
 
   @HostListener('document:pointerdown', ['$event'])
-  public clickedOutsideOfCompenent(event) {
+  clickedOutsideOfCompenent(event) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isOpen = false;
     }
   }
 
-  public set selectedColor(color: string) {
-    this.toolService.getActiveTool().toolOptions.toolColor = color;
-    this.store.dispatch(new ChangeToolColorAction(color));
+  set selectedColor(color: string) {
+    this.colorChange.emit(color);
   }
 
-  public get selectedColor(): string {
-    return this.toolService.getActiveTool().toolOptions.toolColor;
-  }
-
-  public getHexColors(): string[] {
+  getHexColors(): string[] {
     return [
       '#f44336',
       '#e91e63',

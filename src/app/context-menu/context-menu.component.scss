@@ -11,31 +11,3 @@ button {
     transform: rotate(225deg);
   }
 }
-
-.brush {
-  position: absolute;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.circle {
-  border-radius: 50%;
-  display: inline-block;
-
-  &__outer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 50px;
-    height: 50px;
-  }
-
-  &__inner {
-    width: 4px;
-    height: 4px;
-    border: 0;
-    border: 1px solid #000000;
-  }
-}

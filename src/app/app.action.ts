@@ -5,7 +5,7 @@ export class SwitchToolAction implements Action {
   static readonly TYPE = 'TOOL_SWITCH';
   readonly type = SwitchToolAction.TYPE;
 
-  constructor(public tool: ITool) { }
+  constructor(public toolType: ToolType) { }
 }
 
 export class ChangeToolSizeAction implements Action {
