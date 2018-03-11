@@ -1,16 +1,16 @@
-import { ToolType, ITool, ToolOptions } from '../models/tool';
+import { ToolType, ITool } from '../models/tool';
 import { Brush } from '../models/brush';
 import { Eraser } from '../models/eraser';
 
 export class ToolFactory {
-  static createTool(toolType: ToolType, toolOptions: ToolOptions): ITool {
+  static createTool(toolType: ToolType): ITool {
     switch (toolType) {
       case ToolType.Brush:
-        return new Brush(toolOptions);
+        return new Brush();
       case ToolType.Eraser:
-        return new Eraser(toolOptions);
+        return new Eraser();
       default:
-        return new Brush(toolOptions);
+        return new Brush();
     }
   }
 }

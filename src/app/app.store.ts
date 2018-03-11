@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ToolType, ToolOptions, ITool } from './models/tool';
+import { ToolType, ITool } from './models/tool';
 import { ToolFactory } from './tool/tool.factory';
 import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction } from './app.action';
 
@@ -49,12 +49,7 @@ export class AppStore {
   }
 
   get tool$(): Observable<ITool> {
-    return this.select(state => ToolFactory.createTool(
-      state.toolType,
-      {
-        toolColor: state.drawOptions.hexColor,
-        toolSize: state.drawOptions.size
-      }));
+    return this.select(state => ToolFactory.createTool(state.activeTool));
   }
 
   get drawContext$(): Observable<DrawOptions> {

@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
-import { ToolType, ITool, ToolOptions } from '../models/tool';
+import { ToolType, ITool } from '../models/tool';
 import { Brush } from '../models/brush';
 
 @Component({
@@ -12,7 +12,8 @@ import { Brush } from '../models/brush';
 export class ContextMenuComponent {
 
   @Input() color = '#000000';
-  @Input() activeTool: ITool = new Brush(new ToolOptions());
+  @Input() sliderValue = 4;
+  @Input() activeTool: ITool = new Brush();
 
   @Output() toolChange: EventEmitter<ToolType> = new EventEmitter<ToolType>();
   @Output() colorChange: EventEmitter<string> = new EventEmitter<string>();
@@ -23,19 +24,12 @@ export class ContextMenuComponent {
 
   @HostListener('window:wheel', ['$event'])
   onMouseWheel(event: WheelEvent) {
-    this.toolSize = Math.min(Math.max(1, this.toolSize + (event.deltaY > 0 ? 1 : -1)), 50);
+    const newSize = Math.min(Math.max(1, this.sliderValue + (event.deltaY > 0 ? 1 : -1)), 50);
+    this.changeToolSize(newSize);
   }
 
-  set toolSize(value: number) {
+  changeToolSize(value: number) {
     this.sizeChange.emit(value);
-  }
-
-  get toolSize(): number {
-    return this.activeTool.toolOptions.toolSize;
-  }
-
-  get toolColor(): string {
-    return this.activeTool.toolOptions.toolColor;
   }
 
   onBrushClick(): void {
@@ -44,7 +38,7 @@ export class ContextMenuComponent {
 
   // the mat slider does not detect value change during "sliding" -> hence we have a listener that changes the size while "sliding"
   onSliderMove(event: MatSliderChange): void {
-    this.toolSize = event.value;
+    this.changeToolSize(event.value);
   }
 
   isActiveTool(toolType: ToolType): boolean {

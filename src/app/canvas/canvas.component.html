@@ -3,6 +3,7 @@
 </div>
 <app-context-menu
   [color]="color$ | async"
+  [sliderValue]="toolSize$ | async"
   [activeTool]="activeTool$ | async"
   (toolChange)="onToolChange($event)"
   (sizeChange)="onSizeChange($event)"

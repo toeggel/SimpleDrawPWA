@@ -32,8 +32,8 @@ export class CanvasComponent implements AfterViewInit {
 
   constructor(private store: AppStore) {
     this.activeTool$ = this.store.tool$;
-    this.color$ = this.store.tool$.map(t => t.toolOptions.toolColor);
-    this.toolSize$ = this.store.tool$.map(t => t.toolOptions.toolSize);
+    this.color$ = this.store.drawContext$.map(d => d.color);
+    this.toolSize$ = this.store.drawContext$.map(d => d.size);
     this.brushDisplayColor$ = this.activeTool$.switchMap(c => c.type === ToolType.Eraser ? Observable.of('#ffffff') : this.color$);
   }
 
@@ -44,6 +44,14 @@ export class CanvasComponent implements AfterViewInit {
     canvasElement.height = canvasElement.clientHeight;
 
     const drawContext = canvasElement.getContext('2d');
+
+    // todo: unsubscribe
+    this.store.drawContext$.subscribe(ctx => {
+      drawContext.lineWidth = ctx.size;
+      drawContext.lineCap = ctx.style;
+      drawContext.globalCompositeOperation = ctx.compositionType;
+      drawContext.strokeStyle = ctx.color;
+    });
 
     this.pointerdown$ = Observable.fromEvent(canvasElement, 'pointerdown');
     this.pointermove$ = Observable.fromEvent(document, 'pointermove');
