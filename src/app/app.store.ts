@@ -10,13 +10,13 @@ export interface AppState {
 }
 
 export interface DrawState {
-  toolType: ToolType;
-  drawContext: DrawContextState;
+  activeTool: ToolType;
+  drawOptions: DrawOptions;
 }
 
-export interface DrawContextState {
+export interface DrawOptions {
   compositionType: DrawCompositionType;
-  hexColor: string;
+  color: string;
   size: number;
   style: DrawStyle;
 }
@@ -52,16 +52,16 @@ export class AppStore {
     return this.select(state => ToolFactory.createTool(
       state.toolType,
       {
-        toolColor: state.drawContext.hexColor,
-        toolSize: state.drawContext.size
+        toolColor: state.drawOptions.hexColor,
+        toolSize: state.drawOptions.size
       }));
   }
 
-  get drawContext$(): Observable<DrawState> {
-    return this.select(state => state);
+  get drawContext$(): Observable<DrawOptions> {
+    return this.select(state => state.drawOptions);
   }
 
-  private select(mapFn: (toolState: DrawState) => any): Observable<any> {
+  private select<T>(mapFn: (toolState: DrawState) => any): Observable<T> {
     return this.store.select(s => mapFn(s.drawState));
   }
 }

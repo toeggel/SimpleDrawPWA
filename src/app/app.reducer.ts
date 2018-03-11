@@ -1,7 +1,7 @@
 import { State, ActionReducerMap, Action } from '@ngrx/store';
 
 import { ToolAction, SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction } from './app.action';
-import { DrawState, AppState, DrawStyle, DrawContextState, DrawCompositionType } from './app.store';
+import { DrawState, AppState, DrawStyle, DrawOptions, DrawCompositionType } from './app.store';
 import { Brush } from './models/brush';
 import { ToolType, ITool } from './models/tool';
 
@@ -10,10 +10,10 @@ export const appReducers: ActionReducerMap<AppState> = {
 };
 
 const initialToolState: DrawState = {
-  toolType: ToolType.Brush,
-  drawContext: {
+  activeTool: ToolType.Brush,
+  drawOptions: {
     size: 4,
-    hexColor: '#000000',
+    color: '#000000',
     style: DrawStyle.Round,
     compositionType: DrawCompositionType.Default
   },
@@ -26,9 +26,9 @@ export function drawReducer(state: DrawState = initialToolState, action: ToolAct
       const toolType: ToolType = (<SwitchToolAction>action).toolType;
       return {
         ...state,
-        toolType: toolType,
-        drawContext: {
-          ...state.drawContext,
+        activeTool: toolType,
+        drawOptions: {
+          ...state.drawOptions,
           compositionType: toolType === ToolType.Eraser ? DrawCompositionType.Erase : DrawCompositionType.Default
         }
       };
@@ -37,19 +37,19 @@ export function drawReducer(state: DrawState = initialToolState, action: ToolAct
       const size: number = (<ChangeToolSizeAction>action).size;
       return {
         ...state,
-        drawContext: {
-          ...state.drawContext,
+        drawOptions: {
+          ...state.drawOptions,
           size: size
         }
       };
 
     case ChangeToolColorAction.TYPE:
-      const color: string = (<ChangeToolColorAction>action).hexColor;
+      const color: string = (<ChangeToolColorAction>action).color;
       return {
         ...state,
-        drawContext: {
-          ...state.drawContext,
-          hexColor: color
+        drawOptions: {
+          ...state.drawOptions,
+          color: color
         }
       };
 

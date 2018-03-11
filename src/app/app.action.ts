@@ -19,7 +19,7 @@ export class ChangeToolColorAction implements Action {
   static readonly TYPE = 'TOOL_CHANGE_COLOR';
   readonly type = ChangeToolColorAction.TYPE;
 
-  constructor(public hexColor: string) { }
+  constructor(public color: string) { }
 }
 
 export type ToolAction
