@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 
 import '../shared/rxjs-operators';
 import { IPoint, Point } from '../models/point';
-import { ToolService } from '../services/tool.service';
 import { AppStore, AppState } from '../app.store';
 import { ITool, ToolType } from '../models/tool';
 import { Brush } from '../models/brush';
@@ -32,7 +31,7 @@ export class CanvasComponent implements AfterViewInit {
 
   private brushTimer: NodeJS.Timer;
 
-  constructor(private toolService: ToolService, private appStore: AppStore, private store: Store<AppState>) {
+  constructor(private appStore: AppStore, private store: Store<AppState>) {
     this.activeTool$ = this.appStore.tool$;
     this.color$ = this.appStore.tool$.map(t => t.toolOptions.toolColor);
     this.toolSize$ = this.appStore.tool$.map(t => t.toolOptions.toolSize);
@@ -64,7 +63,6 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   public onToolChange(toolType: ToolType): void {
-    this.toolService.selectTool(toolType);
     this.store.dispatch(new SwitchToolAction(toolType));
 
     if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
@@ -73,13 +71,11 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   public onSizeChange(size: number): void {
-    this.toolService.getActiveTool().toolOptions.toolSize = size;
     this.store.dispatch(new ChangeToolSizeAction(size));
     this.showBrush();
   }
 
   public onColorChange(color: string): void {
-    this.toolService.getActiveTool().toolOptions.toolColor = color;
     this.store.dispatch(new ChangeToolColorAction(color));
     this.showBrush();
   }

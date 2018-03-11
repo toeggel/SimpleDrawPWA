@@ -3,19 +3,16 @@ import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../../material/material.module';
 import { ColorPickerComponent } from './color-picker.component';
-import { ToolService } from '../../services/tool.service';
 
 describe('ColorPickerComponent', () => {
   let component: ColorPickerComponent;
   let fixture: ComponentFixture<ColorPickerComponent>;
 
   beforeEach(async(() => {
-    this.toolServiceMock = jasmine.createSpyObj<ToolService>(ToolService.name, ['getActiveTool']);
 
     TestBed.configureTestingModule({
       declarations: [ColorPickerComponent],
       imports: [MaterialModule, FormsModule],
-      providers: [{ provide: ToolService, useValue: this.toolServiceMock }]
     }).compileComponents();
   }));
 

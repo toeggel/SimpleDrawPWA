@@ -17,12 +17,9 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
-import { ToolService } from './services/tool.service';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { drawReducer, appReducers } from './app.reducer';
 import { AppStore } from './app.store';
-
-
 
 @NgModule({
   declarations: [
@@ -47,7 +44,7 @@ import { AppStore } from './app.store';
     }),
     AppRoutingModule
   ],
-  providers: [ToolService, AppStore],
+  providers: [AppStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

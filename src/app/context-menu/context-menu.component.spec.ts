@@ -6,26 +6,15 @@ import { MockComponent } from 'mock-component';
 import { MaterialModule } from '../material/material.module';
 import { ContextMenuComponent } from './context-menu.component';
 import { ColorPickerComponent } from '../shared/color-picker/color-picker.component';
-import { ToolService } from '../services/tool.service';
 
 describe('ContextMenuComponent', () => {
   let component: ContextMenuComponent;
   let fixture: ComponentFixture<ContextMenuComponent>;
 
   beforeEach(async(() => {
-    this.toolServiceMock = jasmine.createSpyObj<ToolService>(ToolService.name, ['getActiveTool']);
-
-    this.toolServiceMock.getActiveTool.and.returnValue({
-      toolOptions: {
-        toolSize: '3',
-        toolColor: '#112233',
-      }
-    });
-
     TestBed.configureTestingModule({
       declarations: [ContextMenuComponent, MockComponent(ColorPickerComponent)],
       imports: [MaterialModule, FormsModule],
-      providers: [ToolService]
     }).compileComponents();
   }));
 
