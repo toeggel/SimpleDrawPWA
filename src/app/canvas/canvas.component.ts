@@ -1,7 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
+import '../shared/rxjs-operators';
 import { IPoint, Point } from '../models/point';
 import { ToolService } from '../services/tool.service';
+import { ToolStore } from '../app.store';
+import { ITool } from '../models/tool';
+import { Brush } from '../models/brush';
 
 @Component({
   selector: 'app-canvas',
@@ -12,8 +17,14 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
   @ViewChild('canvas') canvas: ElementRef;
 
-  constructor(private toolService: ToolService) { }
+  private activeTool$: Observable<ITool>;
+  private pointerdown$: Observable<PointerEvent>;
+  private pointermove$: Observable<PointerEvent>;
+  private pointerup$: Observable<PointerEvent>;
 
+  constructor(private toolService: ToolService, private toolStore: ToolStore) {
+    this.activeTool$ = this.toolStore.tool$;
+  }
   public ngOnInit() { }
 
   public ngAfterViewInit() {
@@ -22,32 +33,24 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     canvasElement.width = canvasElement.clientWidth;
     canvasElement.height = canvasElement.clientHeight;
 
-    this.registerEvents(canvasElement);
+    this.pointerdown$ = Observable.fromEvent(canvasElement, 'pointerdown');
+    this.pointermove$ = Observable.fromEvent(document, 'pointermove');
+    this.pointerup$ = Observable.fromEvent(document, 'pointerup');
+
+    // todo: unsubscribe
+    const subscription = this.pointerdown$
+      .switchMap((down) => this.pointermove$
+        .startWith(down)
+        .takeUntil(this.pointerup$)
+        .withLatestFrom(this.activeTool$))
+      .subscribe(([event, tool]) =>
+        tool.onMoveAction(
+          canvasElement.getContext('2d'),
+          this.getCurrentPointerPosition(event, canvasElement)));
   }
 
-  private registerEvents(canvasElement: HTMLCanvasElement): void {
-    const drawContext = canvasElement.getContext('2d');
-    const rect = canvasElement.getBoundingClientRect();
-
-    canvasElement.addEventListener('pointerdown', (event) => {
-      const activeTool = this.toolService.getActiveTool();
-      activeTool.onStartAction(drawContext, this.getCurrentPointerPosition(event, rect));
-    });
-
-    document.addEventListener('pointermove', (event) => {
-      const activeTool = this.toolService.getActiveTool();
-      activeTool.onMoveAction(drawContext, this.getCurrentPointerPosition(event, rect));
-    });
-
-    ['pointerup'].forEach((eventName) => {
-      document.addEventListener(eventName, (event: PointerEvent) => {
-        const activeTool = this.toolService.getActiveTool();
-        activeTool.onEndAction();
-      });
-    });
-  }
-
-  private getCurrentPointerPosition(event: PointerEvent, canvasBoundingRect: ClientRect): IPoint {
+  private getCurrentPointerPosition(event: PointerEvent, canvasElement: Element): IPoint {
+    const canvasBoundingRect = canvasElement.getBoundingClientRect();
     return new Point(event.clientX - canvasBoundingRect.left, event.clientY - canvasBoundingRect.top);
   }
 }

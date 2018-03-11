@@ -19,7 +19,8 @@ import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 import { ToolService } from './services/tool.service';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
-import { toolReducer, appState } from './app.reducer';
+import { toolReducer, appReducers } from './app.reducer';
+import { ToolStore } from './app.store';
 
 
 
@@ -40,13 +41,13 @@ import { toolReducer, appState } from './app.reducer';
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FlexLayoutModule,
     NgxElectronModule,
-    StoreModule.forRoot(appState),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 50, // Retains last x states
     }),
     AppRoutingModule
   ],
-  providers: [ToolService],
+  providers: [ToolService, ToolStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,7 +5,6 @@ export interface ITool {
   toolOptions: ToolOptions;
   onStartAction: (drawContext: CanvasRenderingContext2D, currentPosition: IPoint) => void;
   onMoveAction: (drawContext: CanvasRenderingContext2D, currentPosition: IPoint) => void;
-  onEndAction: () => void;
 }
 
 export class ToolOptions {

@@ -1,17 +1,17 @@
-import { Action } from '@ngrx/store';
+import { State, ActionReducerMap, Action } from '@ngrx/store';
 
 import { ToolAction, SwitchToolAction } from './app.action';
 import { ToolState, AppState } from './app.store';
 import { Brush } from './models/brush';
 import { ToolType } from './models/tool';
 
-export const appState = {
+export const appReducers: ActionReducerMap<AppState>  = {
   tool: toolReducer
 };
 
 const initialToolState: ToolState = {
   type: ToolType.Brush,
-  options: {
+  toolOptions: {
     toolSize: 4,
     toolColor: '#000000'
   }
@@ -25,7 +25,7 @@ export function toolReducer(state: ToolState = initialToolState, action: ToolAct
       return {
         ...state,
         type: switchToolAction.tool.type,
-        options: switchToolAction.tool.toolOptions
+        toolOptions: switchToolAction.tool.toolOptions
       };
 
     default:

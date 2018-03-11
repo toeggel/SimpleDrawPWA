@@ -1,5 +1,5 @@
 import { ToolOptions, ToolType, ITool } from './tool';
-import { IPoint } from './point';
+import { IPoint, Point } from './point';
 
 export class Brush implements ITool {
   public type: ToolType = ToolType.Brush;
@@ -26,14 +26,16 @@ export class Brush implements ITool {
   }
 
   public onMoveAction(drawContext: CanvasRenderingContext2D, currentPosition: IPoint): void {
-    if (this.isActive) {
-      this.drawLine(drawContext, this.previousPosition, currentPosition);
-      this.previousPosition = currentPosition;
-    }
-  }
+    const wasActive = this.isActive;
 
-  public onEndAction(): void {
-    this.isActive = false;
+    if (!this.isActive) {
+      this.onStartAction(drawContext, currentPosition);
+      return;
+    }
+
+    this.drawLine(drawContext, this.previousPosition, currentPosition);
+    this.previousPosition = currentPosition;
+
   }
 
   protected setColor(drawContext: CanvasRenderingContext2D): void {
@@ -50,5 +52,8 @@ export class Brush implements ITool {
       drawContext.lineTo(pointB.x, pointB.y);
       drawContext.stroke();
     }
+
+
+    drawContext.closePath();
   }
 }

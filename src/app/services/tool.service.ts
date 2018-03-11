@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import 'rxjs/add/operator/take';
 
 import { ITool, ToolType, ToolOptions } from '../models/tool';
 import { Brush } from '../models/brush';
 import { Eraser } from '../models/eraser';
 import { AppState } from '../app.store';
 import { SwitchToolAction } from '../app.action';
+import { ToolFactory } from '../tool/tool.factory';
 
 @Injectable()
 export class ToolService {
