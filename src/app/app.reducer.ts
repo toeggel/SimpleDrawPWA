@@ -1,25 +1,23 @@
 import { State, ActionReducerMap, Action } from '@ngrx/store';
 
-import { ToolAction, SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction } from './app.action';
-import { DrawState, AppState, DrawStyle, DrawOptions, DrawCompositionType } from './app.store';
-import { Brush } from './models/brush';
-import { ToolType, ITool } from './models/tool';
+import { ToolAction, SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddLineAction } from './app.action';
+import { AppState, DrawStyle, DrawOptions, DrawCompositionType, Lines } from './app.store';
+import { ToolType } from './models/toolType';
 
 export const appReducers: ActionReducerMap<AppState> = {
-  drawState: drawReducer,
+  drawOptions: drawOptionsReducer,
+  drawing: drawingReducer
 };
 
-const initialToolState: DrawState = {
+const initialAppState: DrawOptions = {
   activeTool: ToolType.Brush,
-  drawOptions: {
-    size: 4,
-    color: '#000000',
-    style: DrawStyle.Round,
-    compositionType: DrawCompositionType.Default
-  },
+  size: 4,
+  color: '#000000',
+  style: DrawStyle.Round,
+  compositionType: DrawCompositionType.Default
 };
 
-export function drawReducer(state: DrawState = initialToolState, action: ToolAction): DrawState {
+export function drawOptionsReducer(state: DrawOptions = initialAppState, action: ToolAction): DrawOptions {
   switch (action.type) {
 
     case SwitchToolAction.TYPE:
@@ -27,31 +25,35 @@ export function drawReducer(state: DrawState = initialToolState, action: ToolAct
       return {
         ...state,
         activeTool: toolType,
-        drawOptions: {
-          ...state.drawOptions,
-          compositionType: toolType === ToolType.Eraser ? DrawCompositionType.Erase : DrawCompositionType.Default
-        }
+        compositionType: toolType === ToolType.Eraser ? DrawCompositionType.Erase : DrawCompositionType.Default
       };
 
     case ChangeToolSizeAction.TYPE:
       const size: number = (<ChangeToolSizeAction>action).size;
       return {
         ...state,
-        drawOptions: {
-          ...state.drawOptions,
-          size: size
-        }
+        size: size
       };
 
     case ChangeToolColorAction.TYPE:
       const color: string = (<ChangeToolColorAction>action).color;
       return {
         ...state,
-        drawOptions: {
-          ...state.drawOptions,
-          color: color
-        }
+        color: color
       };
+
+    default:
+      return state;
+  }
+}
+
+
+export function drawingReducer(state: Lines[] = [], action: ToolAction): Lines[] {
+  switch (action.type) {
+
+    case AddLineAction.TYPE:
+      const lines: Lines = (<AddLineAction>action).lines;
+      return [...state, lines];
 
     default:
       return state;

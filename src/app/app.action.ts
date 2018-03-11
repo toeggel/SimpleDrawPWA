@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { ITool, ToolType } from './models/tool';
+import { Lines } from './app.store';
+import { ToolType } from './models/toolType';
 
 export class SwitchToolAction implements Action {
   static readonly TYPE = 'TOOL_SWITCH';
@@ -22,7 +23,15 @@ export class ChangeToolColorAction implements Action {
   constructor(public color: string) { }
 }
 
+export class AddLineAction implements Action {
+  static readonly TYPE = 'ADD_LINE';
+  readonly type = AddLineAction.TYPE;
+
+  constructor(public lines: Lines) { }
+}
+
 export type ToolAction
   = SwitchToolAction
   | ChangeToolSizeAction
-  | ChangeToolColorAction;
+  | ChangeToolColorAction
+  | AddLineAction;

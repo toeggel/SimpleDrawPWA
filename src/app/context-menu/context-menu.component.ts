@@ -1,7 +1,6 @@
 import { Component, HostListener, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
-import { ToolType, ITool } from '../models/tool';
-import { Brush } from '../models/brush';
+import { ToolType } from '../models/toolType';
 
 @Component({
   selector: 'app-context-menu',
@@ -13,7 +12,7 @@ export class ContextMenuComponent {
 
   @Input() color = '#000000';
   @Input() sliderValue = 4;
-  @Input() activeTool: ITool = new Brush();
+  @Input() activeTool: ToolType = ToolType.Brush;
 
   @Output() toolChange: EventEmitter<ToolType> = new EventEmitter<ToolType>();
   @Output() colorChange: EventEmitter<string> = new EventEmitter<string>();
@@ -42,7 +41,7 @@ export class ContextMenuComponent {
   }
 
   isActiveTool(toolType: ToolType): boolean {
-    return toolType === this.activeTool.type;
+    return toolType === this.activeTool;
   }
 
   private selectTool(toolType: ToolType): void {

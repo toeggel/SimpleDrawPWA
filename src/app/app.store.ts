@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ToolType, ITool } from './models/tool';
-import { ToolFactory } from './tool/tool.factory';
-import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction } from './app.action';
+import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddLineAction } from './app.action';
+import { Point } from './models/point';
+import { Line } from './models/line';
+import { ToolType } from './models/toolType';
 
 export interface AppState {
-  drawState: DrawState;
+  drawOptions: DrawOptions;
+  drawing: Lines[];
 }
 
-export interface DrawState {
-  activeTool: ToolType;
+export interface Lines {
   drawOptions: DrawOptions;
+  lines: Line[];
 }
 
 export interface DrawOptions {
+  activeTool: ToolType;
   compositionType: DrawCompositionType;
   color: string;
   size: number;
@@ -48,15 +51,21 @@ export class AppStore {
     this.store.dispatch(new ChangeToolSizeAction(size));
   }
 
-  get tool$(): Observable<ITool> {
-    return this.select(state => ToolFactory.createTool(state.activeTool));
+  addLine(lines: Lines) {
+    if (lines.lines.length > 0) {
+      this.store.dispatch(new AddLineAction(lines));
+    }
+  }
+
+  get tool$(): Observable<ToolType> {
+    return this.select(state => state.activeTool);
   }
 
   get drawContext$(): Observable<DrawOptions> {
-    return this.select(state => state.drawOptions);
+    return this.select(state => state);
   }
 
-  private select<T>(mapFn: (toolState: DrawState) => any): Observable<T> {
-    return this.store.select(s => mapFn(s.drawState));
+  private select<T>(mapFn: (toolState: DrawOptions) => any): Observable<T> {
+    return this.store.select(s => mapFn(s.drawOptions));
   }
 }

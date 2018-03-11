@@ -18,7 +18,7 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
-import { drawReducer, appReducers } from './app.reducer';
+import { drawOptionsReducer, appReducers } from './app.reducer';
 import { AppStore } from './app.store';
 
 @NgModule({
