@@ -8,14 +8,14 @@ import { AppStore, AppState } from '../app.store';
 import { ITool, ToolType } from '../models/tool';
 import { Brush } from '../models/brush';
 import { Eraser } from '../models/eraser';
+import { BaseComponent } from '../shared/base.component';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements AfterViewInit {
-
+export class CanvasComponent extends BaseComponent implements AfterViewInit {
   @ViewChild('canvas') canvas: ElementRef;
 
   activeTool$: Observable<ITool>;
@@ -31,6 +31,8 @@ export class CanvasComponent implements AfterViewInit {
   private brushTimer: NodeJS.Timer;
 
   constructor(private store: AppStore) {
+    super();
+
     this.activeTool$ = this.store.tool$;
     this.color$ = this.store.drawContext$.map(d => d.color);
     this.toolSize$ = this.store.drawContext$.map(d => d.size);
@@ -38,35 +40,21 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const canvasElement = this.canvas.nativeElement;
-
+    const canvasElement: HTMLCanvasElement = this.canvas.nativeElement;
     canvasElement.width = canvasElement.clientWidth;
     canvasElement.height = canvasElement.clientHeight;
 
     const drawContext = canvasElement.getContext('2d');
+    this.store.drawContext$
+      .takeUntil(this.destroyed$)
+      .subscribe(ctx => {
+        drawContext.lineWidth = ctx.size;
+        drawContext.lineCap = ctx.style;
+        drawContext.globalCompositeOperation = ctx.compositionType;
+        drawContext.strokeStyle = ctx.color;
+      });
 
-    // todo: unsubscribe
-    this.store.drawContext$.subscribe(ctx => {
-      drawContext.lineWidth = ctx.size;
-      drawContext.lineCap = ctx.style;
-      drawContext.globalCompositeOperation = ctx.compositionType;
-      drawContext.strokeStyle = ctx.color;
-    });
-
-    this.pointerdown$ = Observable.fromEvent(canvasElement, 'pointerdown');
-    this.pointermove$ = Observable.fromEvent(document, 'pointermove');
-    this.pointerup$ = Observable.fromEvent(document, 'pointerup');
-
-    // todo: unsubscribe
-    const subscription = this.pointerdown$
-      .switchMap((down) => this.pointermove$
-        .startWith(down)
-        .takeUntil(this.pointerup$)
-        .withLatestFrom(this.activeTool$))
-      .subscribe(([event, tool]) =>
-        tool.onMoveAction(
-          drawContext,
-          this.getCurrentPointerPosition(event, canvasElement)));
+    this.registerPointerEvents(canvasElement);
   }
 
   onToolChange(toolType: ToolType): void {
@@ -85,6 +73,23 @@ export class CanvasComponent implements AfterViewInit {
   onColorChange(color: string): void {
     this.store.changeToolColor(color);
     this.showBrush();
+  }
+
+  private registerPointerEvents(canvasElement: HTMLCanvasElement): void {
+    this.pointerdown$ = Observable.fromEvent(canvasElement, 'pointerdown');
+    this.pointermove$ = Observable.fromEvent(document, 'pointermove');
+    this.pointerup$ = Observable.fromEvent(document, 'pointerup');
+
+    this.pointerdown$
+      .switchMap((down) => this.pointermove$
+        .startWith(down)
+        .takeUntil(this.pointerup$)
+        .withLatestFrom(this.activeTool$))
+      .takeUntil(this.destroyed$)
+      .subscribe(([event, tool]) =>
+        tool.onMoveAction(
+          canvasElement.getContext('2d'),
+          this.getCurrentPointerPosition(event, canvasElement)));
   }
 
   private getCurrentPointerPosition(event: PointerEvent, canvasElement: Element): IPoint {
