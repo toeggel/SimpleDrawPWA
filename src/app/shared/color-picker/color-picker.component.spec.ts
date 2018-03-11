@@ -25,21 +25,4 @@ describe('ColorPickerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('selectedColor', () => {
-    describe('get', () => {
-      it('return the color of the active tool', () => {
-
-        this.toolServiceMock.getActiveTool.and.returnValue({
-          toolOptions: {
-            toolSize: '3',
-            toolColor: '#112233',
-          }
-        });
-
-        expect(component.selectedColor).toBe('#112233');
-      });
-    });
-  });
-
 });

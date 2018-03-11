@@ -1,3 +1,4 @@
+import { Brush } from '../models/brush';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MockComponent } from 'mock-component';
@@ -5,19 +6,22 @@ import { MockComponent } from 'mock-component';
 import { MaterialModule } from '../material/material.module';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { CanvasComponent } from './canvas.component';
-import { ToolService } from '../services/tool.service';
+import { AppStore } from '../app.store';
+import { Observable } from 'rxjs/Observable';
+import { ToolOptions } from '../models/tool';
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
 
   beforeEach(async(() => {
-    this.toolServiceMock = jasmine.createSpyObj<ToolService>(ToolService.name, ['getActiveTool']);
+    // this.toolServiceMock = jasmine.createSpyObj<ToolService>(ToolService.name, ['getActiveTool']);
+    this.appStoreMock = { tool$: Observable.of(new Brush(new ToolOptions())) };
 
     TestBed.configureTestingModule({
       declarations: [CanvasComponent, MockComponent(ContextMenuComponent)],
       imports: [MaterialModule, FormsModule],
-      providers: [{ provide: ToolService, useValue: this.toolServiceMock }]
+      providers: [{ provide: AppStore, useValue: this.appStoreMock }]
     }).compileComponents();
   }));
 
