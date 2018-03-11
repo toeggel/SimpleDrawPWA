@@ -9,6 +9,6 @@ export class Eraser extends Brush {
   }
 
   protected setColor(drawContext: CanvasRenderingContext2D): void {
-    drawContext.strokeStyle = '#ffffff';
+    drawContext.globalCompositeOperation = 'destination-out';
   }
 }

@@ -33,8 +33,6 @@ export class ToolService {
       default:
         break;
     }
-
-    this.store.dispatch(new SwitchToolAction(this.activeTool));
   }
 
   public isActiveTool(toolType: ToolType): boolean {

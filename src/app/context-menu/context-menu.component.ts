@@ -2,6 +2,9 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
 import { ToolService } from '../services/tool.service';
 import { ToolType } from '../models/tool';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.store';
+import { ChangeToolSizeAction, SwitchToolAction } from '../app.action';
 
 @Component({
   selector: 'app-context-menu',
@@ -15,7 +18,7 @@ export class ContextMenuComponent implements OnInit {
 
   private brushTimer: NodeJS.Timer;
 
-  public constructor(private toolService: ToolService) { }
+  public constructor(private toolService: ToolService, private store: Store<AppState>) { }
 
   public ngOnInit() { }
 
@@ -44,10 +47,13 @@ export class ContextMenuComponent implements OnInit {
   // the mat slider does not detect value change during "sliding" -> hence we have a listener that changes the size while "sliding"
   public onSliderMove(event: MatSliderChange): void {
     this.toolSize = event.value;
+    this.store.dispatch(new ChangeToolSizeAction(this.toolSize));
   }
 
   public selectTool(toolType: ToolType): void {
     this.toolService.selectTool(toolType);
+
+    this.store.dispatch(new SwitchToolAction(this.toolService.getActiveTool()));
 
     if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
       this.showBrush();

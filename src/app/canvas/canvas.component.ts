@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import '../shared/rxjs-operators';
 import { IPoint, Point } from '../models/point';
 import { ToolService } from '../services/tool.service';
-import { ToolStore } from '../app.store';
+import { AppStore } from '../app.store';
 import { ITool } from '../models/tool';
 import { Brush } from '../models/brush';
 
@@ -22,8 +22,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   private pointermove$: Observable<PointerEvent>;
   private pointerup$: Observable<PointerEvent>;
 
-  constructor(private toolService: ToolService, private toolStore: ToolStore) {
-    this.activeTool$ = this.toolStore.tool$;
+  constructor(private toolService: ToolService, private store: AppStore) {
+    this.activeTool$ = this.store.tool$;
   }
   public ngOnInit() { }
 
@@ -32,6 +32,8 @@ export class CanvasComponent implements OnInit, AfterViewInit {
 
     canvasElement.width = canvasElement.clientWidth;
     canvasElement.height = canvasElement.clientHeight;
+
+    const drawContext = canvasElement.getContext('2d');
 
     this.pointerdown$ = Observable.fromEvent(canvasElement, 'pointerdown');
     this.pointermove$ = Observable.fromEvent(document, 'pointermove');
@@ -45,7 +47,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
         .withLatestFrom(this.activeTool$))
       .subscribe(([event, tool]) =>
         tool.onMoveAction(
-          canvasElement.getContext('2d'),
+          drawContext,
           this.getCurrentPointerPosition(event, canvasElement)));
   }
 

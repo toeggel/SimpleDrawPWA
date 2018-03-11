@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, HostListener, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ToolService } from '../../services/tool.service';
+import { AppState } from '../../app.store';
+import { Store } from '@ngrx/store';
+import { ChangeToolColorAction } from '../../app.action';
 
 @Component({
   selector: 'app-color-picker',
@@ -12,7 +15,7 @@ export class ColorPickerComponent implements OnInit {
 
   private _selectedColor = '#000000';
 
-  public constructor(private elementRef: ElementRef, private toolService: ToolService) { }
+  public constructor(private elementRef: ElementRef, private toolService: ToolService, private store: Store<AppState>) { }
 
   public ngOnInit() { }
 
@@ -25,6 +28,7 @@ export class ColorPickerComponent implements OnInit {
 
   public set selectedColor(color: string) {
     this.toolService.getActiveTool().toolOptions.toolColor = color;
+    this.store.dispatch(new ChangeToolColorAction(color));
   }
 
   public get selectedColor(): string {

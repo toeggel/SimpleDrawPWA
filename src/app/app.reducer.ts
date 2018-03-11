@@ -1,31 +1,56 @@
 import { State, ActionReducerMap, Action } from '@ngrx/store';
 
-import { ToolAction, SwitchToolAction } from './app.action';
-import { ToolState, AppState } from './app.store';
+import { ToolAction, SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction } from './app.action';
+import { DrawState, AppState, DrawStyle, DrawContextState, DrawCompositionType } from './app.store';
 import { Brush } from './models/brush';
-import { ToolType } from './models/tool';
+import { ToolType, ITool } from './models/tool';
 
-export const appReducers: ActionReducerMap<AppState>  = {
-  tool: toolReducer
+export const appReducers: ActionReducerMap<AppState> = {
+  drawState: drawReducer,
 };
 
-const initialToolState: ToolState = {
-  type: ToolType.Brush,
-  toolOptions: {
-    toolSize: 4,
-    toolColor: '#000000'
-  }
+const initialToolState: DrawState = {
+  toolType: ToolType.Brush,
+  drawContext: {
+    size: 4,
+    hexColor: '#000000',
+    style: DrawStyle.Round,
+    compositionType: DrawCompositionType.Default
+  },
 };
 
-export function toolReducer(state: ToolState = initialToolState, action: ToolAction): ToolState {
+export function drawReducer(state: DrawState = initialToolState, action: ToolAction): DrawState {
   switch (action.type) {
 
     case SwitchToolAction.TYPE:
-      const switchToolAction: SwitchToolAction = <SwitchToolAction>action;
+      const tool: ITool = (<SwitchToolAction>action).tool;
       return {
         ...state,
-        type: switchToolAction.tool.type,
-        toolOptions: switchToolAction.tool.toolOptions
+        toolType: tool.type,
+        drawContext: {
+          ...state.drawContext,
+          compositionType: tool.type === ToolType.Eraser ? DrawCompositionType.Erase : DrawCompositionType.Default
+        }
+      };
+
+    case ChangeToolSizeAction.TYPE:
+      const size: number = (<ChangeToolSizeAction>action).size;
+      return {
+        ...state,
+        drawContext: {
+          ...state.drawContext,
+          size: size
+        }
+      };
+
+    case ChangeToolColorAction.TYPE:
+      const color: string = (<ChangeToolColorAction>action).hexColor;
+      return {
+        ...state,
+        drawContext: {
+          ...state.drawContext,
+          hexColor: color
+        }
       };
 
     default:

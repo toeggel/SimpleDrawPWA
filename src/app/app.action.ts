@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {ITool, ToolType} from './models/tool';
+import { ITool, ToolType } from './models/tool';
 
 export class SwitchToolAction implements Action {
   static readonly TYPE = 'TOOL_SWITCH';
@@ -8,5 +8,21 @@ export class SwitchToolAction implements Action {
   constructor(public tool: ITool) { }
 }
 
+export class ChangeToolSizeAction implements Action {
+  static readonly TYPE = 'TOOL_CHANGE_SIZE';
+  readonly type = ChangeToolSizeAction.TYPE;
+
+  constructor(public size: number) { }
+}
+
+export class ChangeToolColorAction implements Action {
+  static readonly TYPE = 'TOOL_CHANGE_COLOR';
+  readonly type = ChangeToolColorAction.TYPE;
+
+  constructor(public hexColor: string) { }
+}
+
 export type ToolAction
-  = SwitchToolAction;
+  = SwitchToolAction
+  | ChangeToolSizeAction
+  | ChangeToolColorAction;

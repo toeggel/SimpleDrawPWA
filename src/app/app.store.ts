@@ -5,25 +5,49 @@ import { ToolType, ToolOptions, ITool } from './models/tool';
 import { ToolFactory } from './tool/tool.factory';
 
 export interface AppState {
-  tool: ToolState;
+  drawState: DrawState;
 }
 
-export interface ToolState {
-  type: ToolType;
-  toolOptions: ToolOptions;
+export interface DrawState {
+  toolType: ToolType;
+  drawContext: DrawContextState;
 }
 
+export interface DrawContextState {
+  compositionType: DrawCompositionType;
+  hexColor: string;
+  size: number;
+  style: DrawStyle;
+}
+
+export enum DrawCompositionType {
+  Default = 'source-over',
+  Erase = 'destination-out'
+}
+
+export enum DrawStyle {
+  Round = 'round'
+}
 
 @Injectable()
-export class ToolStore {
+export class AppStore {
 
   constructor(private store: Store<AppState>) { }
 
   get tool$(): Observable<ITool> {
-    return this.select(state => ToolFactory.createTool(state.type, state.toolOptions));
+    return this.select(state => ToolFactory.createTool(
+      state.toolType,
+      {
+        toolColor: state.drawContext.hexColor,
+        toolSize: state.drawContext.size
+      }));
   }
 
-  private select(mapFn: (toolState: ToolState) => ITool): Observable<ITool> {
-    return this.store.select(s => mapFn(s.tool));
+  get drawContext$(): Observable<DrawState> {
+    return this.select(state => state);
+  }
+
+  private select(mapFn: (toolState: DrawState) => any): Observable<any> {
+    return this.store.select(s => mapFn(s.drawState));
   }
 }

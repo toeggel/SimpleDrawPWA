@@ -19,8 +19,8 @@ import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 import { ToolService } from './services/tool.service';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
-import { toolReducer, appReducers } from './app.reducer';
-import { ToolStore } from './app.store';
+import { drawReducer, appReducers } from './app.reducer';
+import { AppStore } from './app.store';
 
 
 
@@ -47,7 +47,7 @@ import { ToolStore } from './app.store';
     }),
     AppRoutingModule
   ],
-  providers: [ToolService, ToolStore],
+  providers: [ToolService, AppStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

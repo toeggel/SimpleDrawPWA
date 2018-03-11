@@ -39,6 +39,7 @@ export class Brush implements ITool {
   }
 
   protected setColor(drawContext: CanvasRenderingContext2D): void {
+    drawContext.globalCompositeOperation = 'source-over';
     drawContext.strokeStyle = this.toolOptions.toolColor;
   }
 
