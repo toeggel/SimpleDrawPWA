@@ -7,7 +7,6 @@ import { IPoint, Point } from '../models/point';
 import { AppStore, AppState } from '../app.store';
 import { ITool, ToolType } from '../models/tool';
 import { Brush } from '../models/brush';
-import { Store } from '@ngrx/store';
 import { Eraser } from '../models/eraser';
 
 @Component({
@@ -31,14 +30,14 @@ export class CanvasComponent implements AfterViewInit {
 
   private brushTimer: NodeJS.Timer;
 
-  constructor(private appStore: AppStore, private store: Store<AppState>) {
-    this.activeTool$ = this.appStore.tool$;
-    this.color$ = this.appStore.tool$.map(t => t.toolOptions.toolColor);
-    this.toolSize$ = this.appStore.tool$.map(t => t.toolOptions.toolSize);
+  constructor(private store: AppStore) {
+    this.activeTool$ = this.store.tool$;
+    this.color$ = this.store.tool$.map(t => t.toolOptions.toolColor);
+    this.toolSize$ = this.store.tool$.map(t => t.toolOptions.toolSize);
     this.brushDisplayColor$ = this.activeTool$.switchMap(c => c.type === ToolType.Eraser ? Observable.of('#ffffff') : this.color$);
   }
 
-  public ngAfterViewInit() {
+  ngAfterViewInit() {
     const canvasElement = this.canvas.nativeElement;
 
     canvasElement.width = canvasElement.clientWidth;
@@ -62,21 +61,21 @@ export class CanvasComponent implements AfterViewInit {
           this.getCurrentPointerPosition(event, canvasElement)));
   }
 
-  public onToolChange(toolType: ToolType): void {
-    this.store.dispatch(new SwitchToolAction(toolType));
+  onToolChange(toolType: ToolType): void {
+    this.store.switchTool(toolType);
 
     if (toolType === ToolType.Brush || toolType === ToolType.Eraser) {
       this.showBrush();
     }
   }
 
-  public onSizeChange(size: number): void {
-    this.store.dispatch(new ChangeToolSizeAction(size));
+  onSizeChange(size: number): void {
+    this.store.changeToolSize(size);
     this.showBrush();
   }
 
-  public onColorChange(color: string): void {
-    this.store.dispatch(new ChangeToolColorAction(color));
+  onColorChange(color: string): void {
+    this.store.changeToolColor(color);
     this.showBrush();
   }
 
