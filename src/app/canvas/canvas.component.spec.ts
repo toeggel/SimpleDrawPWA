@@ -6,17 +6,18 @@ import { MockComponent } from 'mock-component';
 import { MaterialModule } from '../material/material.module';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { CanvasComponent } from './canvas.component';
-import { AppStore } from '../app.store';
+import { AppStore, DrawOptions } from '../app.store';
 import { Observable } from 'rxjs/Observable';
-import { ToolOptions } from '../models/tool';
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;
   let fixture: ComponentFixture<CanvasComponent>;
 
   beforeEach(async(() => {
-    // this.toolServiceMock = jasmine.createSpyObj<ToolService>(ToolService.name, ['getActiveTool']);
-    this.appStoreMock = { tool$: Observable.of(new Brush(new ToolOptions())) };
+    this.appStoreMock = {
+      tool$: Observable.of(new Brush()),
+      drawContext$: Observable.of({ size: 4, color: '#ffffff' })
+    };
 
     TestBed.configureTestingModule({
       declarations: [CanvasComponent, MockComponent(ContextMenuComponent)],
