@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddLineAction } from './app.action';
+import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddDrawingPartAction } from './app.action';
 import { Point } from './models/point';
 import { Line } from './models/line';
 import { ToolType } from './models/toolType';
 
 export interface AppState {
-  drawOptions: DrawOptions;
-  drawing: Lines[];
+  readonly drawOptions: DrawOptions;
+  readonly drawing: DrawingPartAction[];
 }
 
-export interface Lines {
-  drawOptions: DrawOptions;
-  lines: Line[];
+export interface DrawingPartAction {
+  readonly drawOptions: DrawOptions;
+  readonly lines: Line[];
 }
 
 export interface DrawOptions {
-  activeTool: ToolType;
-  compositionType: DrawCompositionType;
-  color: string;
-  size: number;
-  style: DrawStyle;
+  readonly activeTool: ToolType;
+  readonly compositionType: DrawCompositionType;
+  readonly color: string;
+  readonly size: number;
+  readonly style: DrawStyle;
 }
 
 export enum DrawCompositionType {
@@ -51,9 +51,9 @@ export class AppStore {
     this.store.dispatch(new ChangeToolSizeAction(size));
   }
 
-  addLine(lines: Lines) {
-    if (lines.lines.length > 0) {
-      this.store.dispatch(new AddLineAction(lines));
+  addDrawingPart(drawingPart: DrawingPartAction) {
+    if (drawingPart.lines.length > 0) {
+      this.store.dispatch(new AddDrawingPartAction(drawingPart));
     }
   }
 

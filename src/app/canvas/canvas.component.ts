@@ -94,7 +94,7 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
       .withLatestFrom(this.drawOptions$)
       .takeUntil(this.destroyed$)
       .subscribe(([lines, drawOptions]) => {
-        this.store.addLine({
+        this.store.addDrawingPart({
           drawOptions,
           lines
         });
