@@ -8,10 +8,10 @@ import { ToolType } from './models/toolType';
 
 export interface AppState {
   readonly drawOptions: DrawOptions;
-  readonly drawing: DrawingPartAction[];
+  readonly drawing: DrawingPart[];
 }
 
-export interface DrawingPartAction {
+export interface DrawingPart {
   readonly drawOptions: DrawOptions;
   readonly lines: Line[];
 }
@@ -51,7 +51,7 @@ export class AppStore {
     this.store.dispatch(new ChangeToolSizeAction(size));
   }
 
-  addDrawingPart(drawingPart: DrawingPartAction) {
+  addDrawingPart(drawingPart: DrawingPart) {
     if (drawingPart.lines.length > 0) {
       this.store.dispatch(new AddDrawingPartAction(drawingPart));
     }

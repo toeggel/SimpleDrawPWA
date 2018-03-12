@@ -1,7 +1,7 @@
 import { State, ActionReducerMap, Action } from '@ngrx/store';
 
 import { DrawAction, SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddDrawingPartAction } from './app.action';
-import { AppState, DrawStyle, DrawOptions, DrawCompositionType, DrawingPartAction } from './app.store';
+import { AppState, DrawStyle, DrawOptions, DrawCompositionType, DrawingPart } from './app.store';
 import { ToolType } from './models/toolType';
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -47,11 +47,11 @@ export function drawOptionsReducer(state: DrawOptions = initialAppState, action:
   }
 }
 
-export function drawingReducer(state: DrawingPartAction[] = [], action: DrawAction): DrawingPartAction[] {
+export function drawingReducer(state: DrawingPart[] = [], action: DrawAction): DrawingPart[] {
   switch (action.type) {
 
     case AddDrawingPartAction.TYPE:
-      const drawingPart: DrawingPartAction = (<AddDrawingPartAction>action).drawingPart;
+      const drawingPart: DrawingPart = (<AddDrawingPartAction>action).drawingPart;
       return [...state, drawingPart];
 
     default:

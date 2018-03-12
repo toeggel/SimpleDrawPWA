@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { DrawingPartAction } from './app.store';
+import { DrawingPart } from './app.store';
 import { ToolType } from './models/toolType';
 
 export class SwitchToolAction implements Action {
@@ -27,7 +27,7 @@ export class AddDrawingPartAction implements Action {
   static readonly TYPE = 'ADD_DRAWING_PART';
   readonly type = AddDrawingPartAction.TYPE;
 
-  constructor(public drawingPart: DrawingPartAction) { }
+  constructor(public drawingPart: DrawingPart) { }
 }
 
 export type DrawAction
