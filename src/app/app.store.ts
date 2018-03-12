@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddDrawingPartAction } from './app.action';
+import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddDrawingPartAction, UndoDrawingAction } from './app.action';
 import { Point } from './models/point';
 import { Line } from './models/line';
 import { ToolType } from './models/toolType';
@@ -38,34 +38,46 @@ export class AppStore {
 
   constructor(private store: Store<AppState>) { }
 
-  switchTool(toolType: ToolType) {
+  undoDrawing(): void {
+    this.store.dispatch(new UndoDrawingAction());
+  }
+
+  switchTool(toolType: ToolType): void {
     this.store.dispatch(new SwitchToolAction(toolType));
   }
 
-  changeToolColor(color: string) {
+  changeToolColor(color: string): void {
     this.store.dispatch(new SwitchToolAction(ToolType.Brush));
     this.store.dispatch(new ChangeToolColorAction(color));
   }
 
-  changeToolSize(size: number) {
+  changeToolSize(size: number): void {
     this.store.dispatch(new ChangeToolSizeAction(size));
   }
 
-  addDrawingPart(drawingPart: DrawingPart) {
+  addDrawingPart(drawingPart: DrawingPart): void {
     if (drawingPart.lines.length > 0) {
       this.store.dispatch(new AddDrawingPartAction(drawingPart));
     }
   }
 
   get tool$(): Observable<ToolType> {
-    return this.select(state => state.activeTool);
+    return this.drawingOptions(state => state.activeTool);
+  }
+
+  get drawing$(): Observable<DrawingPart[]> {
+    return this.drawing(state => state);
   }
 
   get drawContext$(): Observable<DrawOptions> {
-    return this.select(state => state);
+    return this.drawingOptions(state => state);
   }
 
-  private select<T>(mapFn: (toolState: DrawOptions) => any): Observable<T> {
+  private drawingOptions<T>(mapFn: (drawOptions: DrawOptions) => T): Observable<T> {
     return this.store.select(s => mapFn(s.drawOptions));
+  }
+
+  private drawing<T>(mapFn: (drawing: DrawingPart[]) => T): Observable<T> {
+    return this.store.select(s => mapFn(s.drawing));
   }
 }

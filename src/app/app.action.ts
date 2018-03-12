@@ -30,8 +30,14 @@ export class AddDrawingPartAction implements Action {
   constructor(public drawingPart: DrawingPart) { }
 }
 
+export class UndoDrawingAction implements Action {
+  static readonly TYPE = 'UNDO_DRAWING';
+  readonly type = UndoDrawingAction.TYPE;
+}
+
 export type DrawAction
   = SwitchToolAction
   | ChangeToolSizeAction
   | ChangeToolColorAction
-  | AddDrawingPartAction;
+  | AddDrawingPartAction
+  | UndoDrawingAction;

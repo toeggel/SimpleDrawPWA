@@ -5,7 +5,9 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/forkJoin';
 
 // Observable operators
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/reduce';
+import 'rxjs/add/operator/bufferTime';
 import 'rxjs/add/operator/buffer';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/first';

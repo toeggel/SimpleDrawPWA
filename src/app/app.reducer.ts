@@ -1,6 +1,13 @@
 import { State, ActionReducerMap, Action } from '@ngrx/store';
 
-import { DrawAction, SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddDrawingPartAction } from './app.action';
+import {
+  DrawAction,
+  SwitchToolAction,
+  ChangeToolColorAction,
+  ChangeToolSizeAction,
+  AddDrawingPartAction,
+  UndoDrawingAction
+} from './app.action';
 import { AppState, DrawStyle, DrawOptions, DrawCompositionType, DrawingPart } from './app.store';
 import { ToolType } from './models/toolType';
 
@@ -49,6 +56,11 @@ export function drawOptionsReducer(state: DrawOptions = initialAppState, action:
 
 export function drawingReducer(state: DrawingPart[] = [], action: DrawAction): DrawingPart[] {
   switch (action.type) {
+
+    case UndoDrawingAction.TYPE:
+      const newState = [...state];
+      newState.pop();
+      return newState;
 
     case AddDrawingPartAction.TYPE:
       const drawingPart: DrawingPart = (<AddDrawingPartAction>action).drawingPart;
