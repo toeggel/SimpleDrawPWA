@@ -20,6 +20,7 @@ import { ColorPickerComponent } from './shared/color-picker/color-picker.compone
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { drawOptionsReducer, appReducers } from './app.reducer';
 import { AppStore } from './app.store';
+import { BrushComponent } from './brush/brush.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AppStore } from './app.store';
     CanvasComponent,
     ContextMenuComponent,
     ColorPickerComponent,
-    MenuBarComponent
+    MenuBarComponent,
+    BrushComponent
   ],
   imports: [
     BrowserModule,

@@ -1,25 +1,18 @@
 <div class="canvas-wrapper mat-elevation-z6">
   <canvas #canvas class="canvas"></canvas>
-  <!-- <canvas #canvas2 class="canvas"></canvas> -->
 </div>
-<button mat-button (click)="undoDrawing()">undo</button>
-<app-context-menu
-  [color]="color$ | async"
-  [sliderValue]="toolSize$ | async"
-  [activeTool]="activeTool$ | async"
-  (toolChange)="onToolChange($event)"
-  (sizeChange)="onSizeChange($event)"
-  (colorChange)="onColorChange($event)">
+
+<div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="1px">
+  <button mat-raised-button mat-icon-button>
+    <mat-icon>redo</mat-icon>
+  </button>
+  <button mat-raised-button mat-icon-button (click)="undoDrawing()">
+    <mat-icon>undo</mat-icon>
+  </button>
+</div>
+
+<app-context-menu [color]="color$ | async" [sliderValue]="toolSize$ | async" [activeTool]="activeTool$ | async" (toolChange)="onToolChange($event)"
+  (sizeChange)="onSizeChange($event)" (colorChange)="onColorChange($event)">
 </app-context-menu>
 
-<!-- todo: create component -->
-<div class="brush" *ngIf="showBrushDisplay">
-  <span class="circle circle__outer">
-    <span
-      class="circle circle__inner"
-      [style.background-color]="brushDisplayColor$ | async"
-      [style.width.px]="toolSize$ | async"
-      [style.height.px]="toolSize$ | async">
-    </span>
-  </span>
-</div>
+<app-brush class="brush" *ngIf="showBrushDisplay" [size]="toolSize$ | async" [color]="brushDisplayColor$ | async"></app-brush>

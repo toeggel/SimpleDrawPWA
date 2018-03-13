@@ -141,6 +141,20 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
     return new Point(event.clientX - canvasBoundingRect.left, event.clientY - canvasBoundingRect.top);
   }
 
+  private drawLine(drawContext: CanvasRenderingContext2D, pointA: IPoint, pointB: IPoint): void {
+    if (!drawContext) { return; }
+
+    drawContext.beginPath();
+
+    if (pointA && pointB) {
+      drawContext.moveTo(pointA.x, pointA.y);
+      drawContext.lineTo(pointB.x, pointB.y);
+      drawContext.stroke();
+    }
+
+    drawContext.closePath();
+  }
+
   private showBrush(): void {
     this.stopBrushTimer();
     this.showBrushDisplay = true;
@@ -157,19 +171,5 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   private stopBrushTimer(): void {
     clearTimeout(this.brushTimer);
     this.brushTimer = null;
-  }
-
-  private drawLine(drawContext: CanvasRenderingContext2D, pointA: IPoint, pointB: IPoint): void {
-    if (!drawContext) { return; }
-
-    drawContext.beginPath();
-
-    if (pointA && pointB) {
-      drawContext.moveTo(pointA.x, pointA.y);
-      drawContext.lineTo(pointB.x, pointB.y);
-      drawContext.stroke();
-    }
-
-    drawContext.closePath();
   }
 }
