@@ -3,7 +3,7 @@
 </div>
 
 <div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="1px">
-  <button mat-raised-button mat-icon-button>
+  <button mat-raised-button mat-icon-button (click)="redoDrawing()">
     <mat-icon>redo</mat-icon>
   </button>
   <button mat-raised-button mat-icon-button (click)="undoDrawing()">

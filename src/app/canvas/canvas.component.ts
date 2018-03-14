@@ -61,6 +61,10 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
     this.store.undoDrawing();
   }
 
+  redoDrawing() {
+    this.store.redoDrawing();
+  }
+
   onToolChange(toolType: ToolType): void {
     this.store.switchTool(toolType);
 

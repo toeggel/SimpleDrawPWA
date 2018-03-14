@@ -1,14 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { SwitchToolAction, ChangeToolColorAction, ChangeToolSizeAction, AddDrawingPartAction, UndoDrawingAction } from './app.action';
+import {
+  SwitchToolAction,
+  ChangeToolColorAction,
+  ChangeToolSizeAction,
+  AddDrawingPartAction,
+  UndoDrawingAction,
+  RedoDrawingAction
+} from './app.action';
 import { Point } from './models/point';
 import { Line } from './models/line';
 import { ToolType } from './models/toolType';
 
 export interface AppState {
   readonly drawOptions: DrawOptions;
-  readonly drawing: DrawingPart[];
+  readonly drawing: Drawing;
+}
+
+export interface Drawing {
+  readonly current: DrawingPart[];
+  readonly future: DrawingPart[];
 }
 
 export interface DrawingPart {
@@ -42,6 +54,10 @@ export class AppStore {
     this.store.dispatch(new UndoDrawingAction());
   }
 
+  redoDrawing(): void {
+    this.store.dispatch(new RedoDrawingAction());
+  }
+
   switchTool(toolType: ToolType): void {
     this.store.dispatch(new SwitchToolAction(toolType));
   }
@@ -66,7 +82,7 @@ export class AppStore {
   }
 
   get drawing$(): Observable<DrawingPart[]> {
-    return this.drawing(state => state);
+    return this.drawing(state => state).map(s => s.current);
   }
 
   get drawContext$(): Observable<DrawOptions> {
@@ -77,7 +93,7 @@ export class AppStore {
     return this.store.select(s => mapFn(s.drawOptions));
   }
 
-  private drawing<T>(mapFn: (drawing: DrawingPart[]) => T): Observable<T> {
+  private drawing<T>(mapFn: (drawing: Drawing) => T): Observable<T> {
     return this.store.select(s => mapFn(s.drawing));
   }
 }

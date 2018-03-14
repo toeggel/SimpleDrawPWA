@@ -35,9 +35,16 @@ export class UndoDrawingAction implements Action {
   readonly type = UndoDrawingAction.TYPE;
 }
 
+
+export class RedoDrawingAction implements Action {
+  static readonly TYPE = 'REDO_DRAWING';
+  readonly type = RedoDrawingAction.TYPE;
+}
+
 export type DrawAction
   = SwitchToolAction
   | ChangeToolSizeAction
   | ChangeToolColorAction
   | AddDrawingPartAction
-  | UndoDrawingAction;
+  | UndoDrawingAction
+  | RedoDrawingAction;

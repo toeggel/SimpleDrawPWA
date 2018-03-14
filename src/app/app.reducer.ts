@@ -6,9 +6,10 @@ import {
   ChangeToolColorAction,
   ChangeToolSizeAction,
   AddDrawingPartAction,
-  UndoDrawingAction
+  UndoDrawingAction,
+  RedoDrawingAction
 } from './app.action';
-import { AppState, DrawStyle, DrawOptions, DrawCompositionType, DrawingPart } from './app.store';
+import { AppState, DrawStyle, DrawOptions, DrawCompositionType, DrawingPart, Drawing } from './app.store';
 import { ToolType } from './models/toolType';
 
 export const appReducers: ActionReducerMap<AppState> = {
@@ -54,17 +55,34 @@ export function drawOptionsReducer(state: DrawOptions = initialAppState, action:
   }
 }
 
-export function drawingReducer(state: DrawingPart[] = [], action: DrawAction): DrawingPart[] {
+export function drawingReducer(state: Drawing = { current: [], future: [] }, action: DrawAction): Drawing {
   switch (action.type) {
 
     case UndoDrawingAction.TYPE:
-      const newState = [...state];
-      newState.pop();
-      return newState;
+      const undoState = { ...state };
+      const undoElement = undoState.current.pop();
+      if (!!undoElement) {
+        undoState.future.push(undoElement);
+      }
+
+      return undoState;
+
+    case RedoDrawingAction.TYPE:
+      const redoState = { ...state };
+      const redoElement = redoState.future.pop();
+      if (!!redoElement) {
+        redoState.current.push(redoElement);
+      }
+
+      return redoState;
 
     case AddDrawingPartAction.TYPE:
       const drawingPart: DrawingPart = (<AddDrawingPartAction>action).drawingPart;
-      return [...state, drawingPart];
+      return {
+        ...state,
+        current: [...state.current, drawingPart],
+        future: []
+      };
 
     default:
       return state;
