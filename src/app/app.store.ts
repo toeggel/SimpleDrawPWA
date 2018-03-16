@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+
 import {
   SwitchToolAction,
   ChangeToolColorAction,
@@ -9,9 +10,7 @@ import {
   UndoDrawingAction,
   RedoDrawingAction
 } from './app.action';
-import { Point } from './models/point';
-import { Line } from './models/line';
-import { ToolType } from './models/toolType';
+import { Point, Line, ToolType } from './models';
 
 export interface AppState {
   readonly drawOptions: DrawOptions;

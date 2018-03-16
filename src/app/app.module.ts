@@ -11,16 +11,15 @@ import { NgxElectronModule } from 'ngx-electron';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
-
+import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
-import { ColorPickerComponent } from './shared/color-picker/color-picker.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import { BrushComponent } from './brush/brush.component';
 import { drawOptionsReducer, appReducers } from './app.reducer';
 import { AppStore } from './app.store';
-import { BrushComponent } from './brush/brush.component';
 
 @NgModule({
   declarations: [

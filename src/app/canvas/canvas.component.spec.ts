@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 import { MockComponent } from 'mock-component';
 
 import { MaterialModule } from '../material/material.module';
-import { ContextMenuComponent } from '../context-menu/context-menu.component';
-import { CanvasComponent } from './canvas.component';
 import { AppStore, DrawOptions } from '../app.store';
-import { Observable } from 'rxjs/Observable';
-import { ToolType } from '../models/toolType';
+import { CanvasComponent } from './canvas.component';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { BrushComponent } from '../brush/brush.component';
+import { ToolType } from '../models';
 
 describe('CanvasComponent', () => {
   let component: CanvasComponent;

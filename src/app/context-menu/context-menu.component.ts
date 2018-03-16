@@ -1,6 +1,7 @@
 import { Component, HostListener, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatSliderChange } from '@angular/material';
-import { ToolType } from '../models/toolType';
+
+import { ToolType } from '../models';
 
 @Component({
   selector: 'app-context-menu',

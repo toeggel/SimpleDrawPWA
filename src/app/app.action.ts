@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
+
 import { DrawingPart } from './app.store';
-import { ToolType } from './models/toolType';
+import { ToolType } from './models';
 
 export class SwitchToolAction implements Action {
   static readonly TYPE = 'TOOL_SWITCH';

@@ -1,13 +1,11 @@
-import { SwitchToolAction, ChangeToolSizeAction, ChangeToolColorAction } from '../app.action';
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import '../shared/rxjs-operators';
-import { IPoint, Point } from '../models/point';
-import { AppStore, AppState, DrawOptions, DrawingPart } from '../app.store';
 import { BaseComponent } from '../shared/base.component';
-import { Line } from '../models/line';
-import { ToolType } from '../models/toolType';
+import { SwitchToolAction, ChangeToolSizeAction, ChangeToolColorAction } from '../app.action';
+import { AppStore, AppState, DrawOptions, DrawingPart } from '../app.store';
+import { IPoint, Point, Line, ToolType } from '../models';
 
 @Component({
   selector: 'app-canvas',
