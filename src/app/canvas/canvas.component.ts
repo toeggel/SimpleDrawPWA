@@ -23,6 +23,8 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   color$: Observable<string>;
   toolSize$: Observable<number>;
   brushDisplayColor$: Observable<string>;
+  undoable$: Observable<boolean>;
+  redoable$: Observable<boolean>;
   showBrushDisplay = false;
 
   private pointerdown$: Observable<PointerEvent>;
@@ -34,11 +36,15 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   constructor(private store: AppStore) {
     super();
 
+    this.drawing$ = this.store.drawing$.map(d => d.current);
+    this.undoable$ = this.store.drawing$.map(d => d.current.some(Boolean));
+    this.redoable$ = this.store.drawing$.map(d => d.future.some(Boolean));
+
     this.drawOptions$ = this.store.drawContext$;
-    this.drawing$ = this.store.drawing$;
-    this.activeTool$ = this.store.tool$;
     this.color$ = this.drawOptions$.map(d => d.color);
     this.toolSize$ = this.drawOptions$.map(d => d.size);
+
+    this.activeTool$ = this.store.tool$;
     this.brushDisplayColor$ = this.activeTool$.switchMap(type => type === ToolType.Eraser ? Observable.of('#ffffff') : this.color$);
   }
 

@@ -8,31 +8,32 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-
   position: relative;
   overflow: hidden;
-
   margin: 15px;
 }
 
 .canvas {
   position: absolute;
-
   min-width: 2000px;
   min-height: 2000px;
-
   touch-action: none;
   cursor: crosshair;
-
   background-color: #ffffff;
   color: #000000;
 }
 
 .undo-redo-bar {
-  margin-top: -56px;
+  &__undo {
+    position: absolute;
+    right: 15px;
+    margin-top: -56px;
+  }
 
-  button {
-    margin: 0 15px 15px 15px;
+  &__redo {
+    position: absolute;
+    left: 15px;
+    margin-top: -56px;
   }
 }
 

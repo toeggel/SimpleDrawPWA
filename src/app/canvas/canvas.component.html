@@ -2,11 +2,11 @@
   <canvas #canvas class="canvas"></canvas>
 </div>
 
-<div class="undo-redo-bar" fxLayout="row" fxLayoutAlign="space-between stretch">
-  <button mat-raised-button mat-icon-button (click)="redoDrawing()">
+<div class="undo-redo-bar">
+  <button *ngIf="redoable$ | async" mat-raised-button mat-icon-button class="undo-redo-bar__redo" (click)="redoDrawing()">
     <mat-icon>redo</mat-icon>
   </button>
-  <button mat-raised-button mat-icon-button (click)="undoDrawing()">
+  <button *ngIf="undoable$ | async" mat-raised-button mat-icon-button class="undo-redo-bar__undo" (click)="undoDrawing()">
     <mat-icon>undo</mat-icon>
   </button>
 </div>

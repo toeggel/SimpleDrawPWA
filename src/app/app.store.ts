@@ -81,8 +81,8 @@ export class AppStore {
     return this.drawingOptions(state => state.activeTool);
   }
 
-  get drawing$(): Observable<DrawingPart[]> {
-    return this.drawing(state => state).map(s => s.current);
+  get drawing$(): Observable<Drawing> {
+    return this.drawing(state => state);
   }
 
   get drawContext$(): Observable<DrawOptions> {
