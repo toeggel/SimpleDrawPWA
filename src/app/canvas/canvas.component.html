@@ -2,7 +2,7 @@
   <canvas #canvas class="canvas"></canvas>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="1px">
+<div class="undo-redo-bar" fxLayout="row" fxLayoutAlign="space-between stretch">
   <button mat-raised-button mat-icon-button (click)="redoDrawing()">
     <mat-icon>redo</mat-icon>
   </button>
@@ -15,4 +15,4 @@
   (sizeChange)="onSizeChange($event)" (colorChange)="onColorChange($event)">
 </app-context-menu>
 
-<app-brush class="brush" *ngIf="showBrushDisplay" [size]="toolSize$ | async" [color]="brushDisplayColor$ | async"></app-brush>
+<app-brush *ngIf="showBrushDisplay" class="brush" [size]="toolSize$ | async" [color]="brushDisplayColor$ | async"></app-brush>
