@@ -3,6 +3,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/merge';
 
 // Observable operators
 import 'rxjs/add/operator/do';
