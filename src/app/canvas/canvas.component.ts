@@ -1,7 +1,10 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/observable/merge';
+import { of } from 'rxjs/observable/of';
+import { buffer, tap, withLatestFrom, takeUntil, switchMap, pairwise, map, startWith } from 'rxjs/operators';
 
-import '../shared/rxjs-operators';
 import { BaseComponent } from '../shared/base.component';
 import {
   SwitchToolAction,
@@ -36,19 +39,19 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   constructor(private store: AppStore) {
     super();
 
-    this.drawing$ = this.store.drawing$.map(d => d.current);
-    this.undoable$ = this.store.drawing$.map(d => d.current.some(Boolean));
-    this.redoable$ = this.store.drawing$.map(d => d.future.some(Boolean));
+    this.drawing$ = this.store.drawing$.pipe(map(d => d.current));
+    this.undoable$ = this.store.drawing$.pipe(map(d => d.current.some(Boolean)));
+    this.redoable$ = this.store.drawing$.pipe(map(d => d.future.some(Boolean)));
 
     this.drawOptions$ = this.store.drawContext$;
 
     this.activeTool$ = this.store.tool$;
-    this.brushDisplayColor$ = this.activeTool$.switchMap(
-      type =>
+    this.brushDisplayColor$ = this.activeTool$
+      .pipe(switchMap(type =>
         type === ToolType.Eraser
-          ? Observable.of('#ffffff')
-          : this.drawOptions$.map(d => d.color)
-    );
+          ? of('#ffffff')
+          : this.drawOptions$.pipe(map(d => d.color))
+      ));
   }
 
   ngAfterViewInit() {
@@ -56,16 +59,18 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
     const drawContext = canvasElement.getContext('2d');
 
     this.drawOptions$
-      .takeUntil(this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(options => this.applyDrawOptions(drawContext, options));
 
-    Observable.fromEvent(window, 'resize')
-      .switchMap(e => this.drawing$)
-      .takeUntil(this.destroyed$)
+    fromEvent(window, 'resize')
+      .pipe(
+        switchMap(e => this.drawing$),
+        takeUntil(this.destroyed$)
+      )
       .subscribe(drawing => this.redraw(drawContext, canvasElement, drawing));
 
     this.drawing$
-      .takeUntil(this.destroyed$)
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(drawing => this.redraw(drawContext, canvasElement, drawing));
 
     this.registerPointerEvents(canvasElement);
@@ -131,32 +136,34 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   }
 
   private registerPointerEvents(canvasElement: HTMLCanvasElement): void {
-    this.pointerdown$ = Observable.fromEvent(canvasElement, 'pointerdown');
-    this.pointermove$ = Observable.fromEvent(document, 'pointermove');
-    this.pointerup$ = Observable.fromEvent(document, 'pointerup');
+    this.pointerdown$ = fromEvent(canvasElement, 'pointerdown');
+    this.pointermove$ = fromEvent(document, 'pointermove');
+    this.pointerup$ = fromEvent(document, 'pointerup');
 
     this.trackDrawing(canvasElement)
-      .do(line =>
-        this.drawLine(canvasElement.getContext('2d'), line.pointA, line.pointB)
+      .pipe(
+        tap(line =>
+          this.drawLine(canvasElement.getContext('2d'), line.pointA, line.pointB)
+        ),
+        buffer(this.pointerup$),
+        withLatestFrom(this.drawOptions$),
+        takeUntil(this.destroyed$)
       )
-      .buffer(this.pointerup$)
-      .withLatestFrom(this.drawOptions$)
-      .takeUntil(this.destroyed$)
       .subscribe(([lines, drawOptions]) =>
         this.store.addDrawingPart({ lines, drawOptions })
       );
   }
 
   private trackDrawing(canvasElement: HTMLCanvasElement): Observable<Line> {
-    return this.pointerdown$.switchMap(firstPoint =>
-      this.pointermove$
-        .takeUntil(Observable.merge(this.pointerup$, this.pointerdown$))
-        .pairwise()
-        .map(([eventA, eventB]) =>
-          this.createLine(eventA, eventB, canvasElement)
+    return this.pointerdown$
+      .pipe(switchMap(firstPoint => this.pointermove$
+        .pipe(
+          takeUntil(merge(this.pointerup$, this.pointerdown$)),
+          pairwise(),
+          map(([eventA, eventB]) => this.createLine(eventA, eventB, canvasElement)),
+          startWith(this.createLine(firstPoint, firstPoint, canvasElement))
         )
-        .startWith(this.createLine(firstPoint, firstPoint, canvasElement))
-    );
+      ));
   }
 
   private createLine(eventA: PointerEvent, eventB: PointerEvent, canvasElement: Element): Line {
