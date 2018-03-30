@@ -15,8 +15,9 @@
 
 .canvas {
   position: absolute;
-  min-width: 2000px;
-  min-height: 2000px;
+  min-width: 100%;
+  min-height: 100%;
+
   touch-action: none;
   cursor: crosshair;
   background-color: #ffffff;

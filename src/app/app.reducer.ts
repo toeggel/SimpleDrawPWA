@@ -7,7 +7,8 @@ import {
   ChangeToolSizeAction,
   AddDrawingPartAction,
   UndoDrawingAction,
-  RedoDrawingAction
+  RedoDrawingAction,
+  ZoomAction
 } from './app.action';
 import { AppState, DrawStyle, DrawOptions, DrawCompositionType, DrawingPart, Drawing } from './app.store';
 import { ToolType } from './models/toolType';
@@ -22,7 +23,7 @@ const initialAppState: DrawOptions = {
   size: 4,
   color: '#000000',
   style: DrawStyle.Round,
-  compositionType: DrawCompositionType.Default
+  compositionType: DrawCompositionType.Default,
 };
 
 export function drawOptionsReducer(state: DrawOptions = initialAppState, action: DrawAction): DrawOptions {
@@ -37,17 +38,15 @@ export function drawOptionsReducer(state: DrawOptions = initialAppState, action:
       };
 
     case ChangeToolSizeAction.TYPE:
-      const size: number = (<ChangeToolSizeAction>action).size;
       return {
         ...state,
-        size: size
+        size: (<ChangeToolSizeAction>action).size
       };
 
     case ChangeToolColorAction.TYPE:
-      const color: string = (<ChangeToolColorAction>action).color;
       return {
         ...state,
-        color: color
+        color: (<ChangeToolColorAction>action).color
       };
 
     default:
@@ -84,7 +83,30 @@ export function drawingReducer(state: Drawing = { current: [], future: [] }, act
         future: []
       };
 
+    case ZoomAction.TYPE:
+      return {
+        ...state,
+        current: zoom(state.current, (<ZoomAction>action).zoomFactor),
+        future: zoom(state.future, (<ZoomAction>action).zoomFactor)
+      };
+
     default:
       return state;
   }
+}
+
+function zoom(parts: DrawingPart[], factor: number) {
+  return parts.map(d => {
+    return {
+      ...d,
+      drawOptions: { ...d.drawOptions, size: d.drawOptions.size * factor },
+      lines: d.lines.map(l => {
+        return {
+          ...l,
+          pointA: { ...l.pointA, x: l.pointA.x * factor, y: l.pointA.y * factor },
+          pointB: { ...l.pointB, x: l.pointB.x * factor, y: l.pointB.y * factor }
+        };
+      })
+    };
+  });
 }

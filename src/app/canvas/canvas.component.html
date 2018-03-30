@@ -11,8 +11,8 @@
   </button>
 </div>
 
-<app-context-menu [color]="color$ | async" [sliderValue]="toolSize$ | async" [activeTool]="activeTool$ | async" (toolChange)="onToolChange($event)"
-  (sizeChange)="onSizeChange($event)" (colorChange)="onColorChange($event)">
+<app-context-menu [color]="(drawOptions$ | async).color" [sliderValue]="(drawOptions$ | async).size" [activeTool]="activeTool$ | async"
+  (toolChange)="onToolChange($event)" (sizeChange)="onSizeChange($event)" (colorChange)="onColorChange($event)" (zoom)="onZoom($event)">
 </app-context-menu>
 
-<app-brush *ngIf="showBrushDisplay" class="brush" [size]="toolSize$ | async" [color]="brushDisplayColor$ | async"></app-brush>
+<app-brush *ngIf="showBrushDisplay" class="brush" [size]="(drawOptions$ | async).size" [color]="brushDisplayColor$ | async"></app-brush>

@@ -8,7 +8,8 @@ import {
   ChangeToolSizeAction,
   AddDrawingPartAction,
   UndoDrawingAction,
-  RedoDrawingAction
+  RedoDrawingAction,
+  ZoomAction
 } from './app.action';
 import { Point, Line, ToolType } from './models';
 
@@ -74,6 +75,10 @@ export class AppStore {
     if (drawingPart.lines.length > 0) {
       this.store.dispatch(new AddDrawingPartAction(drawingPart));
     }
+  }
+
+  zoom(zoomFactor: number): void {
+    this.store.dispatch(new ZoomAction(zoomFactor));
   }
 
   get tool$(): Observable<ToolType> {

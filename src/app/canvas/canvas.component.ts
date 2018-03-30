@@ -20,13 +20,13 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   @ViewChild('canvas') canvas: ElementRef;
 
   drawOptions$: Observable<DrawOptions>;
-  drawing$: Observable<DrawingPart[]>;
   activeTool$: Observable<ToolType>;
-  brushDisplayColor$: Observable<string>;
   undoable$: Observable<boolean>;
   redoable$: Observable<boolean>;
+  brushDisplayColor$: Observable<string>;
   showBrushDisplay = false;
 
+  private drawing$: Observable<DrawingPart[]>;
   private pointerdown$: Observable<PointerEvent>;
   private pointermove$: Observable<PointerEvent>;
   private pointerup$: Observable<PointerEvent>;
@@ -59,6 +59,11 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
       .takeUntil(this.destroyed$)
       .subscribe(options => this.applyDrawOptions(drawContext, options));
 
+    Observable.fromEvent(window, 'resize')
+      .switchMap(e => this.drawing$)
+      .takeUntil(this.destroyed$)
+      .subscribe(drawing => this.redraw(drawContext, canvasElement, drawing));
+
     this.drawing$
       .takeUntil(this.destroyed$)
       .subscribe(drawing => this.redraw(drawContext, canvasElement, drawing));
@@ -90,6 +95,10 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
   onColorChange(color: string): void {
     this.store.changeToolColor(color);
     this.showBrush();
+  }
+
+  onZoom(zoomFactor: number): void {
+    this.store.zoom(zoomFactor);
   }
 
   private redraw(drawContext: CanvasRenderingContext2D, canvasElement: HTMLCanvasElement, drawingParts: DrawingPart[]): void {
@@ -143,22 +152,21 @@ export class CanvasComponent extends BaseComponent implements AfterViewInit {
       this.pointermove$
         .takeUntil(Observable.merge(this.pointerup$, this.pointerdown$))
         .pairwise()
-        .map(([pointA, pointB]) =>
-          this.createLine(pointA, pointB, canvasElement)
+        .map(([eventA, eventB]) =>
+          this.createLine(eventA, eventB, canvasElement)
         )
         .startWith(this.createLine(firstPoint, firstPoint, canvasElement))
     );
   }
 
-  private createLine(pointA: PointerEvent, pointB: PointerEvent, canvasElement: Element): Line {
+  private createLine(eventA: PointerEvent, eventB: PointerEvent, canvasElement: Element): Line {
     return {
-      pointA: this.getCurrentPointerPosition(pointA, canvasElement),
-      pointB: this.getCurrentPointerPosition(pointB, canvasElement)
+      pointA: this.getPointerPosition(eventA, canvasElement),
+      pointB: this.getPointerPosition(eventB, canvasElement)
     };
   }
 
-  // todo: create current pointer position from pointermove observable
-  private getCurrentPointerPosition(event: PointerEvent, canvasElement: Element): IPoint {
+  private getPointerPosition(event: PointerEvent, canvasElement: Element): IPoint {
     const canvasBoundingRect = canvasElement.getBoundingClientRect();
     return new Point(
       event.clientX - canvasBoundingRect.left,

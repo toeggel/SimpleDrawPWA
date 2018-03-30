@@ -18,6 +18,7 @@ export class ContextMenuComponent {
   @Output() toolChange: EventEmitter<ToolType> = new EventEmitter<ToolType>();
   @Output() colorChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() sizeChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() zoom: EventEmitter<number> = new EventEmitter<number>();
 
   // provide enum values in html template
   ToolType: typeof ToolType = ToolType;
@@ -28,7 +29,7 @@ export class ContextMenuComponent {
     this.changeToolSize(newSize);
   }
 
-  changeToolSize(value: number) {
+  changeToolSize(value: number): void {
     this.sizeChange.emit(value);
   }
 
